@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://www.huweihuang.com/article/Windows%E9%85%8D%E7%BD%AEGithub%E7%9A%84SSH-key/</loc>
+        <lastmod>2019-09-01T10:05:37.542Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://www.huweihuang.com/article/Hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
         <lastmod>2019-09-01T09:47:40.493Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -33,14 +41,6 @@
     <url>
         <loc>http://www.huweihuang.com/article/Linux%E7%A6%81%E6%AD%A2Root%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/</loc>
         <lastmod>2019-08-30T02:49:29.269Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.huweihuang.com/article/hexo-theme-huweihuang/</loc>
-        <lastmod>2019-08-29T10:14:58.047Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
