@@ -2,13 +2,13 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword"  content="">
+    <meta name="description" content>
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -218,7 +218,7 @@
 <p>Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;String, String&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">        map.put(&quot;key&quot;, &quot;value&quot;);</span><br><span class="line">        String v = map.get(&quot;key&quot;);</span><br><span class="line">        System.out.println(v);</span><br></pre></td></tr></table></figure>
-<h3 id="jdk17">jdk1.7</h3>
+<h3><span id="jdk17">jdk1.7</span></h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // 初始桶容量</span><br><span class="line">static final float DEFAULT_LOAD_FACTOR = 0.75f; //负载因子</span><br></pre></td></tr></table></figure>
 <ul>
 <li>1.确定数组下标</li>
@@ -257,7 +257,7 @@
 <li>计算扩容后数组的大小</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">设传入大小为L</span><br><span class="line">    计算： L -1 | L &gt;&gt;&gt; 1  L &gt;&gt;&gt; 2  L &gt;&gt;&gt; 4  L &gt;&gt;&gt; 8  L &gt;&gt;&gt; 16</span><br><span class="line">    原理： 最高1位 依次右移得到以低位全为1的树 即 2的n次方 -1</span><br><span class="line">    最终结果 + 1</span><br></pre></td></tr></table></figure>
-<h3 id="jdk18">jdk1.8</h3>
+<h3><span id="jdk18">jdk1.8</span></h3>
 <blockquote>
 <p>数组 + 链表 + 红黑树</p>
 </blockquote>
@@ -276,11 +276,11 @@
 <li>关键代码分析</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">final V putVal(int hash, K key, V value, boolean onlyIfAbsent,</span><br><span class="line">                   boolean evict) &#123;</span><br><span class="line">        HashMap.Node&lt;K,V&gt;[] tab; HashMap.Node&lt;K,V&gt; p; int n, i;</span><br><span class="line">        if ((tab = table) == null || (n = tab.length) == 0)</span><br><span class="line">            n = (tab = resize()).length;</span><br><span class="line">            //当前数组位置没有元素，直接放入</span><br><span class="line">        if ((p = tab[i = (n - 1) &amp; hash]) == null)</span><br><span class="line">            tab[i] = newNode(hash, key, value, null);</span><br><span class="line">        else &#123;</span><br><span class="line">        //当前数组位置已有元素</span><br><span class="line">            HashMap.Node&lt;K,V&gt; e; K k;</span><br><span class="line">            //key相同直接相当于更新</span><br><span class="line">            if (p.hash == hash &amp;&amp;</span><br><span class="line">                    ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))</span><br><span class="line">                e = p;</span><br><span class="line">                // 如果当前数组位置是红黑树</span><br><span class="line">            else if (p instanceof HashMap.TreeNode)</span><br><span class="line">                e = ((HashMap.TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);</span><br><span class="line">            else &#123;</span><br><span class="line">                for (int binCount = 0; ; ++binCount) &#123;</span><br><span class="line">                当前链表节点为尾部节点  直接放到尾部</span><br><span class="line">                    if ((e = p.next) == null) &#123;</span><br><span class="line">                        p.next = newNode(hash, key, value, null);</span><br><span class="line">                        if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st</span><br><span class="line">                            treeifyBin(tab, hash);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                    //当前节点不为空key相同 更新操作</span><br><span class="line">                    if (e.hash == hash &amp;&amp;</span><br><span class="line">                            ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))</span><br><span class="line">                        break;</span><br><span class="line">                    p = e;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (e != null) &#123; // existing mapping for key</span><br><span class="line">                V oldValue = e.value;</span><br><span class="line">                if (!onlyIfAbsent || oldValue == null)</span><br><span class="line">                    e.value = value;</span><br><span class="line">                afterNodeAccess(e);</span><br><span class="line">                return oldValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ++modCount;</span><br><span class="line">        //判断当前长度是否大于阈值 进行扩容</span><br><span class="line">        if (++size &gt; threshold)</span><br><span class="line">            resize();</span><br><span class="line">        afterNodeInsertion(evict);</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="18-扩容">1.8 扩容</h3>
+<h3><span id="18-扩容">1.8 扩容</span></h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">                       next = e.next;</span><br><span class="line">                       //为0不变为1则下标为结果加上oldLength</span><br><span class="line">                       if ((e.hash &amp; oldCap) == 0) &#123;</span><br><span class="line">                           if (loTail == null)</span><br><span class="line">                               loHead = e;</span><br><span class="line">                           else</span><br><span class="line">                               loTail.next = e;</span><br><span class="line">                           loTail = e;</span><br><span class="line">                       &#125;</span><br><span class="line">                       else &#123;</span><br><span class="line">                           if (hiTail == null)</span><br><span class="line">                               hiHead = e;</span><br><span class="line">                           else</span><br><span class="line">                               hiTail.next = e;</span><br><span class="line">                           hiTail = e;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br></pre></td></tr></table></figure>
 <p>注意:<br>
 在1.8中扩容是的算法有所变化，之前的 <code>hash &amp; newTable.length -1</code> 改为 <code>(e.hash &amp; oldCap) == 0</code></p>
-<h3 id="总结">总结</h3>
+<h3><span id="总结">总结</span></h3>
 <blockquote>
 <p>JDK源码中确实有许多代码设计精致的地方值得我们取挖掘学习. coding…</p>
 </blockquote>
@@ -292,12 +292,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Linux禁止Root用户登录/" data-toggle="tooltip" data-placement="top" title="Centos禁止Root用户登录">&larr; Previous Post</a>
+                            <a href="/article/CurrentHashMap源码学习笔记/" data-toggle="tooltip" data-placement="top" title="CurrentHashMap源码学习笔记">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/hexo-theme-huweihuang/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme HuWeihuang">Next Post &rarr;</a>
+                            <a href="/article/Linux禁止Root用户登录/" data-toggle="tooltip" data-placement="top" title="Centos禁止Root用户登录">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -353,7 +353,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#jdk17"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">jdk1.7</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#jdk18"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">jdk1.8</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#18-扩容"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">1.8 &#x6269;&#x5BB9;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x603B;&#x7ED3;</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">jdk1.7</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">jdk1.8</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">1.8 扩容</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">总结</span></a></li></ol>
         
         </div>
       </aside>

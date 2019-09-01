@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://www.huweihuang.com/article/Hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
+        <lastmod>2019-09-01T09:47:40.493Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://www.huweihuang.com/article/CurrentHashMap%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
         <lastmod>2019-08-30T03:00:41.314Z</lastmod>
         <changefreq>weekly</changefreq>
