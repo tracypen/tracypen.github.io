@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          微服务下日志处理组件 - haopeng | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.huweihuang.com/article/微服务下日志处理组件/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#SpringCloud" title="SpringCloud">SpringCloud</a>
+                            
+                              <a class="tag" href="/tags/#微服务" title="微服务">微服务</a>
+                            
+                        </div>
+                        <h1>微服务下日志处理组件</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 郝鹏 on
+                            2019-09-01
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">haopeng</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>与传统单体应用不同，微服务下由于，项目模块、业务拆分成多个独立系统，数据库一般也相互独立。所以对于日志的统一管理和收集，也趋于复杂，这里提供一种通用思路借助于springboot自动配置和spring事件发布订阅、SpringAop以及组件化思想，构建一个通用日志组件</p>
+</blockquote>
+<h4><span id="实现思路与步骤">实现思路与步骤</span></h4>
+<h5><span id="1通过自定义注解zglog携带项目模块名和日志操作类型">1.通过自定义注解@ZgLog携带项目模块名和日志操作类型</span></h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author haopeng</span><br><span class="line"> * @date 2019-06-09 17:42</span><br><span class="line"> */</span><br><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface ZgLog &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 服务(子系统)名 默认取$&#123;spring.application.name&#125;</span><br><span class="line">     */</span><br><span class="line">    String serverName() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 模块名</span><br><span class="line">     */</span><br><span class="line">    String module() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 日志描述信息</span><br><span class="line">     */</span><br><span class="line">    String description() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5><span id="2通过apo-aspect拦截所有配置zglog的业务请求">2.通过Apo Aspect拦截所有配置@ZgLog的业务请求</span></h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author haopeng</span><br><span class="line"> * @date 2019-06-09 17:47</span><br><span class="line"> */</span><br><span class="line">@Aspect</span><br><span class="line">public class LogAspect &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;spring.application.name&#125;&quot;)</span><br><span class="line">    private String serverName;</span><br><span class="line"></span><br><span class="line">    @Around(value = &quot;@annotation(zgLog)&quot;)</span><br><span class="line">    public Object around(ProceedingJoinPoint point, ZgLog zgLog) throws Throwable &#123;</span><br><span class="line">        Logger logger = LoggerFactory.getLogger(LogAspect.class);</span><br><span class="line">        String strClassName = point.getTarget().getClass().getName();</span><br><span class="line">        String strMethodName = point.getSignature().getName();</span><br><span class="line">        logger.debug(&quot;[类名]:&#123;&#125;,[方法]:&#123;&#125;&quot;, strClassName, strMethodName);</span><br><span class="line">        SysLog logVo = SysLogUtils.getSysLog();</span><br><span class="line">        logVo.setServerName(StringUtils.isNotBlank(zgLog.serverName()) ? zgLog.serverName() : serverName);</span><br><span class="line">        logVo.setModule(zgLog.module());</span><br><span class="line">        logVo.setDescription(zgLog.description());</span><br><span class="line">        // 发送异步日志事件</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line">        Object obj = point.proceed();</span><br><span class="line">        Long endTime = System.currentTimeMillis();</span><br><span class="line">        logVo.setTime(endTime - startTime);</span><br><span class="line">        SpringContextHolder.publishEvent(new SysLogEvent(logVo));</span><br><span class="line">        return obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面<code>spring.application.name</code>取自微服务中服务名称，用于<code>@ZgLog</code>注解中默认子系统名称，因为统一子系统名称相同，重复配置很臃肿。</p>
+<p>另外，拦截到的日志信息通过<code>publishEvent</code>Spring事件发布功能进行日志消费</p>
+<h5><span id="3定义日志事件类">3.定义日志事件类</span></h5>
+<p>只需集成Spring <code>ApplicationEvent</code>即可作为事件进行发布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class SysLogEvent extends ApplicationEvent &#123;</span><br><span class="line"></span><br><span class="line">    public SysLogEvent(SysLog source) &#123;</span><br><span class="line">        super(source);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5><span id="4在springcontextholder工具类中定义事件发布方法">4.在<code>SpringContextHolder</code>工具类中定义事件发布方法</span></h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">	@Service</span><br><span class="line">@Lazy(false)</span><br><span class="line">public class SpringContextHolder implements ApplicationContextAware, DisposableBean &#123;</span><br><span class="line"></span><br><span class="line">	private static ApplicationContext applicationContext = null;</span><br><span class="line"></span><br><span class="line">	private static Logger logger = LoggerFactory.getLogger(SpringContextHolder.class);</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 取得存储在静态变量中的ApplicationContext.</span><br><span class="line">	 */</span><br><span class="line">	public static ApplicationContext getApplicationContext() &#123;</span><br><span class="line">		assertContextInjected();</span><br><span class="line">		return applicationContext;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.</span><br><span class="line">	 */</span><br><span class="line">	@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">	public static &lt;T&gt; T getBean(String name) &#123;</span><br><span class="line">		assertContextInjected();</span><br><span class="line">		return (T) applicationContext.getBean(name);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.</span><br><span class="line">	 */</span><br><span class="line">	public static &lt;T&gt; T getBean(Class&lt;T&gt; requiredType) &#123;</span><br><span class="line">		assertContextInjected();</span><br><span class="line">		return applicationContext.getBean(requiredType);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 清除SpringContextHolder中的ApplicationContext为Null.</span><br><span class="line">	 */</span><br><span class="line">	public static void clearHolder() &#123;</span><br><span class="line">		if (logger.isDebugEnabled())&#123;</span><br><span class="line">			logger.debug(&quot;清除SpringContextHolder中的ApplicationContext:&quot; + applicationContext);</span><br><span class="line">		&#125;</span><br><span class="line">		applicationContext = null;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 实现ApplicationContextAware接口, 注入Context到静态变量中.</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	public void setApplicationContext(ApplicationContext applicationContext) &#123;</span><br><span class="line">		SpringContextHolder.applicationContext = applicationContext;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static  String getStatic()&#123;</span><br><span class="line">		return SpringContextHolder.getApplicationContext().getApplicationName()+ &quot;/static&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 实现DisposableBean接口, 在Context关闭时清理静态变量.</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	public void destroy() throws Exception &#123;</span><br><span class="line">		SpringContextHolder.clearHolder();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 检查ApplicationContext不为空.</span><br><span class="line">	 */</span><br><span class="line">	private static void assertContextInjected() &#123;</span><br><span class="line">		Validate.validState(applicationContext != null, &quot;applicaitonContext属性未注入, 请在applicationContext.xml中定义SpringContextHolder.&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 发布事件</span><br><span class="line">	 *</span><br><span class="line">	 * @param event</span><br><span class="line">	 */</span><br><span class="line">	public static void publishEvent(ApplicationEvent event) &#123;</span><br><span class="line">		if (applicationContext == null) &#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line">		applicationContext.publishEvent(event);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上：<code>publishEvent</code>方法，用于发布日志消费（入库）事件</p>
+<h5><span id="5定义事件监听器">5.定义事件监听器</span></h5>
+<p>事件发布后，必须也要有事件的监听消费，一一对应，类似消息队列JMS规范中的点对点事件模型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author haopeng</span><br><span class="line"> * @date 2019-06-09 18:13</span><br><span class="line"> */</span><br><span class="line">public class SysLogListener &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(SysLogListener.class);</span><br><span class="line"></span><br><span class="line">    private RemoteLogService remoteLogService;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    @Order</span><br><span class="line">    @EventListener</span><br><span class="line">    public void saveSysLog(SysLogEvent event) &#123;</span><br><span class="line">        SysLog sysLog = (SysLog) event.getSource();</span><br><span class="line">        logger.info(&quot;日志信息...&quot;);</span><br><span class="line">        //todo insert logs into mysql ...</span><br><span class="line">        remoteLogService.saveLog(sysLog);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public RemoteLogService getRemoteLogService() &#123;</span><br><span class="line">        return remoteLogService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setRemoteLogService(RemoteLogService remoteLogService) &#123;</span><br><span class="line">        this.remoteLogService = remoteLogService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public SysLogListener(RemoteLogService remoteLogService) &#123;</span><br><span class="line">        this.remoteLogService = remoteLogService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5><span id="6日志统一消费入库">6.日志统一消费入库</span></h5>
+<p>日志的展示聚合一般在项目平台应用模块，所以这里采用feign组件统一保存日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@FeignClient(value = &quot;fire-ww-01&quot;, fallbackFactory = RemoteLogServiceFallbackFactory.class)</span><br><span class="line">public interface RemoteLogService &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 保存日志</span><br><span class="line">     * @param sysLog log</span><br><span class="line">     * @return boolean</span><br><span class="line">     */</span><br><span class="line">    @PostMapping(&quot;/log&quot;)</span><br><span class="line">    boolean saveLog(@RequestBody SysLog sysLog);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>RemoteLogServiceFallbackFactory</code>为日志调用feigin熔断器，具体代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author haopeng</span><br><span class="line"> * @date 2019-06-09 18:17</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class RemoteLogServiceFallbackImpl implements RemoteLogService &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger LOG = LoggerFactory.getLogger(RemoteLogServiceFallbackImpl.class);</span><br><span class="line">    private Throwable cause;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean saveLog(SysLog sysLog) &#123;</span><br><span class="line">        LOG.error(&quot;feign 插入日志失败&quot;, cause);</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Throwable getCause() &#123;</span><br><span class="line">        return cause;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCause(Throwable cause) &#123;</span><br><span class="line">        this.cause = cause;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5><span id="7在平台模块实现日志的写入和保存">7.在平台模块实现日志的写入和保存</span></h5>
+<p>这里的代码不再赘述根据自己项目的技术栈实现rest接口实现即可</p>
+<h5><span id="8组件化自动化开关化">8.组件化，自动化，开关化</span></h5>
+<ul>
+<li>通过<code>SpringBoot</code>自动配置实现零配置<br>
+在日志组件中穿件<code>resources/META-INF/spring.factories</code>文件(该文件是springboot自动配置读取文件)<code>SpringBoot</code>在启动时会根据此类文件自动加载相关配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">com.zg.common.log.LogAutoConfiguration</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>LogAutoConfiguration</code>自动配置类实现</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@EnableAsync</span><br><span class="line">@Configuration</span><br><span class="line">@ConditionalOnWebApplication</span><br><span class="line">@ConditionalOnProperty(name = &quot;enable&quot;,prefix = &quot;zg.log&quot;,havingValue = &quot;true&quot;,matchIfMissing = true)</span><br><span class="line">@EnableFeignClients(&#123;&quot;com.zg.common.log.feign&quot;&#125;)</span><br><span class="line">public class LogAutoConfiguration &#123;</span><br><span class="line"></span><br><span class="line">    private final RemoteLogService remoteLogService;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public SysLogListener sysLogListener() &#123;</span><br><span class="line">        return new SysLogListener(remoteLogService);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public LogAspect logAspect() &#123;</span><br><span class="line">        return new LogAspect();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LogAutoConfiguration(RemoteLogService remoteLogService) &#123;</span><br><span class="line">        this.remoteLogService = remoteLogService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ol>
+<li><code>@EnableAsync</code>开启异步功能</li>
+<li><code>@Configuration</code>声明配置类</li>
+<li><code>@ConditionalOnWebApplication</code>只有web项目应用该组件时才会加载该配置</li>
+<li><code>@EnableFeignClients</code>声明feign客户端以及组件包扫描路径</li>
+</ol>
+<ul>
+<li>通过自定义属性灵活控制日志开关<br>
+上面<code>LogAutoConfiguration</code>日志自动配置类中<code>@ConditionalOnProperty(name = &quot;enable&quot;,prefix = &quot;zg.log&quot;,havingValue = &quot;true&quot;,matchIfMissing = true)</code><br>
+通过加载项目中<code>zg.log.enable</code>的值来决定是否加载该配置,为<code>true</code>时加载，默认<code>true</code></li>
+</ul>
+<p>例如，在项目配置文件中通过如下定义来开启/关闭日志功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zg:</span><br><span class="line">  log:</span><br><span class="line">    enable: false/false</span><br></pre></td></tr></table></figure>
+<p>以上就是微服务中日志处理的一种常见思路，到此项目中可以完成日志的统一入库与展示</p>
+<h3><span id="拓展组件化">拓展—组件化</span></h3>
+<blockquote>
+<p>以上示例是在项目的公共依赖模块中，如common中定义，那么依赖该公共组件的项目就可实现日志的处理，如果别的项目也需要用，是不是在写一遍逻辑，其实可以利用mavne去抽离成公共日志组件</p>
+</blockquote>
+<ol>
+<li>新建java maven工程，引入相关基础依赖，实现以上逻辑。</li>
+<li>打包jar文件</li>
+<li>安装jar文件到本地仓库或者maven私服<br>
+执行maven部署命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn install:install-file -Dfile=D:/lib/com.zg.log.jar -DgroupId=com.zg -DartifactId=fire-log -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true -DcreateChecksum=true</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>任意项目模块中引入</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;com.zg&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;fire-log&lt;/artifactId&gt;</span><br><span class="line">			&lt;version&gt;1.0&lt;/version&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>由于引入的公共日志组件，所以日志组件的自动配置文件<code>spring.factories</code>也会自动加载，其实这也是为什么我们在引入SpringBoot的一些starter后可以零配置进行一些功能集成，例如<code>spring-data-redis</code>，其实也就是这个原理</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Nginx设置开机自动启动/" data-toggle="tooltip" data-placement="top" title="Nginx设置开机自动启动">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/SpringBoot项目配置文件密码加密-jasypt/" data-toggle="tooltip" data-placement="top" title="SpringBoot项目配置文件密码加密(jasypt)">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">实现思路与步骤</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.通过自定义注解@ZgLog携带项目模块名和日志操作类型</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2.通过Apo Aspect拦截所有配置@ZgLog的业务请求</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3.定义日志事件类</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4.在SpringContextHolder工具类中定义事件发布方法</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5.定义事件监听器</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6.日志统一消费入库</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">7.在平台模块实现日志的写入和保存</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">8.组件化，自动化，开关化</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">拓展—组件化</span></a>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#SpringCloud" title="SpringCloud">SpringCloud</a>
+                        
+                          <a class="tag" href="/tags/#微服务" title="微服务">微服务</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.csdn.net/huwh_" target="_blank">CSDN Blog 郝鹏</a></li>
+                    
+                        <li><a href="http://dockone.io/people/郝鹏" target="_blank">DockOne 郝鹏</a></li>
+                    
+                        <li><a href="https://yq.aliyun.com/u/huweihuang" target="_blank">阿里云栖社区 郝鹏</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+</script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/huweihuang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 郝鹏 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.huweihuang.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.huweihuang.com/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
