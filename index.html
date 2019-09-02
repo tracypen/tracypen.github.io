@@ -134,7 +134,7 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -148,7 +148,7 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -283,6 +283,45 @@
               <a href="/tags/#运维" title="运维">运维</a>
             
               <a href="/tags/#Linux" title="Linux">Linux</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/事务的传播机制与隔离级别/">
+        <h2 class="post-title">
+                                 
+            事务的传播机制与隔离级别
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            什么是事务？
+事务由一组操作构成，我们希望这组操作能够全部正确执行，如果这一组操作中的任意一个步骤发生错误，那么就需要回滚之前已经完成的操作。也就是同一个事务中的所有操作，要么全都正确执行，要么全都不要执行。
+事务的四大特性 ACID
+说到事务，就不得不提一下事务著名的四大特性。
+
+原子性
+原子性要求，事务是一个不可分割的执行单元，事务中的所有操作要么全都执行，要么全都不执行。
+
+
+一致性
+......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#数据库" title="数据库">数据库</a>
             
         </div>
     
@@ -545,43 +584,6 @@ Intellij-Gite......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/article/Nginx设置开机自动启动/">
-        <h2 class="post-title">
-                                 
-            Nginx设置开机自动启动
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1.在/etc/init.d下创建文件nginx
-vim /etc/init.d/nginx
-内容可以参考[Nginx官方文档]
-(https://www.nginx.com/resources/wiki/start/topics/examples/redhatnginxinit/)
-123456789101112131415161718192021222324252627282930313......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by haopeng on
-            2019-09-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#工具" title="工具">工具</a>
-            
-              <a href="/tags/#运维" title="运维">运维</a>
-            
-              <a href="/tags/#Linux" title="Linux">Linux</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -623,19 +625,19 @@ vim /etc/init.d/nginx
     <div class="tags">
         
             
-            <a href="/tags/#工具" title="工具" rel="5">工具</a>
-            
-        
-            
-            <a href="/tags/#运维" title="运维" rel="3">运维</a>
-            
-        
-            
             <a href="/tags/#面试" title="面试" rel="2">面试</a>
             
         
             
             <a href="/tags/#JDK" title="JDK" rel="2">JDK</a>
+            
+        
+            
+            <a href="/tags/#工具" title="工具" rel="5">工具</a>
+            
+        
+            
+            <a href="/tags/#运维" title="运维" rel="3">运维</a>
             
         
             
@@ -651,6 +653,10 @@ vim /etc/init.d/nginx
             
         
             
+            <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="1">Intellj IDEA</a>
+            
+        
+            
             <a href="/tags/#Linux" title="Linux" rel="2">Linux</a>
             
         
@@ -659,15 +665,7 @@ vim /etc/init.d/nginx
             
         
             
-            <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="1">Intellj IDEA</a>
-            
-        
-            
             <a href="/tags/#Web" title="Web" rel="1">Web</a>
-            
-        
-            
-            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
             
         
             
@@ -676,6 +674,14 @@ vim /etc/init.d/nginx
         
             
             <a href="/tags/#微服务" title="微服务" rel="2">微服务</a>
+            
+        
+            
+            <a href="/tags/#数据库" title="数据库" rel="1">数据库</a>
+            
+        
+            
+            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
             
         
     </div>
@@ -731,6 +737,10 @@ vim /etc/init.d/nginx
     <ul>
       
         <li>
+          <a href="/article/事务的传播机制与隔离级别/">事务的传播机制与隔离级别</a>
+        </li>
+      
+        <li>
           <a href="/article/windows-下MySQL绿色（ZIP）版安装/">windows 下MySQL绿色（ZIP）版安装</a>
         </li>
       
@@ -744,10 +754,6 @@ vim /etc/init.d/nginx
       
         <li>
           <a href="/article/Docker学习笔记-docker-compose/">Docker学习笔记-docker-compose</a>
-        </li>
-      
-        <li>
-          <a href="/article/Spring-Boot-Admin2-0集成/">Spring Boot Admin2.0集成</a>
         </li>
       
     </ul>
@@ -774,7 +780,7 @@ vim /etc/init.d/nginx
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>

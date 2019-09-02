@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Docker学习笔记-docker-compose - haopeng | Blog
+          事务的传播机制与隔离级别 - haopeng | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.huweihuang.com/article/Docker学习笔记-docker-compose/">
+    <link rel="canonical" href="http://www.huweihuang.com/article/事务的传播机制与隔离级别/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,16 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
-                            
-                              <a class="tag" href="/tags/#docker-compose" title="docker-compose">docker-compose</a>
+                              <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                             
                         </div>
-                        <h1>Docker学习笔记-docker-compose</h1>
+                        <h1>事务的传播机制与隔离级别</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by haopeng on
-                            2019-09-01
+                            2019-09-02
                         </span>
                     </div>
                 
@@ -214,36 +212,169 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <ul>
-<li>通过以下命令自动下载并安装适应系统版本的Compose</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+                <h3><span id="什么是事务">什么是事务？</span></h3>
+<p>事务由一组操作构成，我们希望这组操作能够全部正确执行，如果这一组操作中的任意一个步骤发生错误，那么就需要回滚之前已经完成的操作。也就是同一个事务中的所有操作，要么全都正确执行，要么全都不要执行。</p>
+<h3><span id="事务的四大特性-acid">事务的四大特性 ACID</span></h3>
+<p>说到事务，就不得不提一下事务著名的四大特性。</p>
 <ul>
-<li>为安装脚本添加执行权限</li>
+<li>原子性<br>
+原子性要求，事务是一个不可分割的执行单元，事务中的所有操作要么全都执行，要么全都不执行。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
-<p>这样，Compose就安装完成了。<br>
-可使用以下命令测试安装结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
-<p>可输出类似于如下的内容。<br>
-<code>docker-compose version 1.16.1, build 1719ceb</code><br>
-说明Compose已成功安装。</p>
 <ul>
-<li>安装Compose命令补全工具<br>
-我们已成功安装Compose，然而，当我们输入<code>docker-compose</code> 并按下Tab键时，Compose并没有为我们补全命令。要想使用Compose的命令补全，我们需要安装命令补全工具。</li>
+<li>一致性<br>
+一致性要求，事务在开始前和结束后，数据库的完整性约束没有被破坏。</li>
 </ul>
-<p>命令补全工具在Bash和Zsh下的安装方式不同，本书演示的是Bash下的安装。其他Shell以及其他操作系统上的安装，可详见Docker的官方文档：<a href="https://docs.docker.com/compose/completion/" target="_blank" rel="noopener">https://docs.docker.com/compose/completion/</a></p>
 <ul>
-<li>执行以下命令，即可安装命令补全工具。执行以下命令，即可安装命令补全工具。</li>
+<li>隔离性<br>
+事务的执行是相互独立的，它们不会相互干扰，一个事务不会看到另一个正在运行过程中的事务的数据。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose version --short)/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose</span><br></pre></td></tr></table></figure>
-<p>这样，在重新登录后，输入docker-compose 并按下Tab键，Compose就可自动补全命令了。</p>
 <ul>
-<li>Docker Compose安装:<a href="https://docs.docker.com/compose/install/" target="_blank" rel="noopener">https://docs.docker.com/compose/install/</a></li>
-<li>命令补全工具安装: <a href="https://docs.docker.com/compose/completion/" target="_blank" rel="noopener">https://docs.docker.com/compose/completion/</a></li>
-<li></li>
+<li>持久性<br>
+持久性要求，一个事务完成之后，事务的执行结果必须是持久化保存的。即使数据库发生崩溃，在数据库恢复后事务提交的结果仍然不会丢失。</li>
 </ul>
-<p>参考：<a href="http://www.itmuch.com/docker/00-docker-lession-index/" target="_blank" rel="noopener">http://www.itmuch.com/docker/00-docker-lession-index/</a></p>
+<blockquote>
+<p>注意：事务只能保证数据库的高可靠性，即数据库本身发生问题后，事务提交后的数据仍然能恢复；而如果不是数据库本身的故障，如硬盘损坏了，那么事务提交的数据可能就丢失了。这属于『高可用性』的范畴。因此，事务只能保证数据库的『高可靠性』，而『高可用性』需要整个系统共同配合实现。</p>
+</blockquote>
+<h3><span id="事务的隔离级别">事务的隔离级别</span></h3>
+<p>这里扩展一下，对事务的隔离性做一个详细的解释。</p>
+<p>在事务的四大特性ACID中，要求的隔离性是一种严格意义上的隔离，也就是多个事务是串行执行的，彼此之间不会受到任何干扰。这确实能够完全保证数据的安全性，但在实际业务系统中，这种方式性能不高。因此，数据库定义了四种隔离级别，隔离级别和数据库的性能是呈反比的，隔离级别越低，数据库性能越高，而隔离级别越高，数据库性能越差。</p>
+<h4><span id="事务并发执行会出现的问题">事务并发执行会出现的问题</span></h4>
+<ul>
+<li>
+<p><strong>更新丢失</strong><br>
+当有两个并发执行的事务，更新同一行数据，那么有可能一个事务会把另一个事务的更新覆盖掉。<br>
+当数据库没有加任何锁操作的情况下会发生。</p>
+</li>
+<li>
+<p><strong>脏读</strong><br>
+一个事务读到另一个尚未提交的事务中的数据。<br>
+该数据可能会被回滚从而失效。<br>
+如果第一个事务拿着失效的数据去处理那就发生错误了。</p>
+</li>
+<li>
+<p><strong>不可重复读</strong><br>
+不可重复度的含义：一个事务对同一行数据读了两次，却得到了不同的结果。它具体分为如下两种情况：</p>
+<ul>
+<li><strong>虚读</strong>：在事务1两次读取同一记录的过程中，事务2对该记录进行了修改，从而事务1第二次读到了不一样的记录。</li>
+<li><strong>幻读</strong>：事务1在两次查询的过程中，事务2对该表进行了插入、删除操作，从而事务1第二次查询的结果发生了变化。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>不可重复读 与 脏读 的区别？ 脏读读到的是尚未提交的数据，而不可重复读读到的是已经提交的数据，只不过在两次读的过程中数据被另一个事务改过了。</p>
+</blockquote>
+<h4><span id="数据库的四种隔离级别">数据库的四种隔离级别</span></h4>
+<p>数据库一共有如下四种隔离级别：</p>
+<ol>
+<li><strong>Read uncommitted 读未提交</strong><br>
+在该级别下，一个事务对一行数据修改的过程中，不允许另一个事务对该行数据进行修改，但允许另一个事务对该行数据读。<br>
+因此本级别下，不会出现更新丢失，但会出现脏读、不可重复读。</li>
+</ol>
+<ol start="2">
+<li><strong>Read committed 读已提交</strong><br>
+在该级别下，未提交的写事务不允许其他事务访问该行，因此不会出现脏读；但是读取数据的事务允许其他事务的访问该行数据，因此会出现不可重复读的情况。</li>
+</ol>
+<ol start="3">
+<li><strong>Repeatable read 可重复读</strong><br>
+在该级别下，读事务禁止写事务，但允许读事务，因此不会出现同一事务两次读到不同的数据的情况（不可重复读），且写事务禁止其他一切事务。</li>
+</ol>
+<ol start="4">
+<li><strong>Serializable 序列化</strong><br>
+该级别要求所有事务都必须串行执行，因此能避免一切因并发引起的问题，但效率很低。</li>
+</ol>
+<blockquote>
+<p>隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed。它能够避免脏读取，而且具有较好的并发性能。尽管它会导致不可重复读、幻读和第二类丢失更新这些并发问题，在可能出现这类问题的个别场合，可以由应用程序采用悲观锁或乐观锁来控制。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读未提交(Read uncommitted)</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>读已提交(Read committed)</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>可重复读(Repeatable read)</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>可串行化(Serializable )</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody>
+</table>
+<h3><span id="spring中七种事务传播行为">Spring中七种事务传播行为</span></h3>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>事务传播行为类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>PROPAGATION_REQUIRED</td>
+<td>如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PROPAGATION_SUPPORTS</td>
+<td>支持当前事务，如果当前没有事务，就以非事务方式执行</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PROPAGATION_MANDATORY</td>
+<td>使用当前的事务，如果当前没有事务，就抛出异常。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PROPAGATION_REQUIRES_NEW</td>
+<td>新建事务，如果当前存在事务，把当前事务挂起。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PROPAGATION_NOT_SUPPORTED</td>
+<td>以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</td>
+</tr>
+<tr>
+<td>6</td>
+<td>PROPAGATION_NEVER</td>
+<td>以非事务方式执行，如果当前存在事务，则抛出异常。</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PROPAGATION_NESTED</td>
+<td>如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与PROPAGATION_REQUIRED类似的操作。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>可以看出1、2、3为一组，都表现对当前事务的支持，不同的在于当前不存在事务的处理方式；4、5、6为一组，都表现对当前事务的不支持，不同的在于当前有事务的处理方式。然后7单独一组。</p>
+</blockquote>
+<blockquote>
+<p>举个小栗子，比如有一个service中有方法A，调用了方法B，方法B的传播行为是PROPAGATION_REQUIRED，那么如果方法A的传播行为也是PROPAGATION_REQUIRED，方法A运行的时候，开启了一个事务，方法A中执行到方法B的时候，察觉到当前已经有事务了，方法B就不会再创建新的事务，直接包含在方法A的事务当中。</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"txAdvice"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"get*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span> <span class="attr">isolation</span>=<span class="string">"READ_COMMITTED"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRES_NEW"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"find*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"select*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"count*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"*"</span> <span class="attr">rollback-for</span>=<span class="string">"Exception"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">tx:annotation-driven</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--由于没有给method配置isolation属性，所以默认是isolation=‘DEFAULT’，也就是使用后端数据库默认的隔离级别。--&gt;</span></span><br></pre></td></tr></table></figure>
 
                 
 
@@ -251,13 +382,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/Centos搭建GitLab/" data-toggle="tooltip" data-placement="top" title="Centos搭建GitLab">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/article/Spring-Boot-Admin2-0集成/" data-toggle="tooltip" data-placement="top" title="Spring Boot Admin2.0集成">Next Post &rarr;</a>
+                            <a href="/article/windows-下MySQL绿色（ZIP）版安装/" data-toggle="tooltip" data-placement="top" title="windows 下MySQL绿色（ZIP）版安装">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -313,7 +440,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">什么是事务？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">事务的四大特性 ACID</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">事务的隔离级别</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">事务并发执行会出现的问题</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">数据库的四种隔离级别</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Spring中七种事务传播行为</span></a></li></ol>
         
         </div>
       </aside>
@@ -333,9 +460,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
-                        
-                          <a class="tag" href="/tags/#docker-compose" title="docker-compose">docker-compose</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
                 </section>
