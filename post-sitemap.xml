@@ -7,6 +7,30 @@
     </url>
 
     <url>
+        <loc>http://www.huweihuang.com/article/HashMap%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+        <lastmod>2019-09-02T01:50:45.201Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.huweihuang.com/article/CurrentHashMap%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+        <lastmod>2019-09-02T01:50:45.184Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.huweihuang.com/article/windows-%E4%B8%8BMySQL%E7%BB%BF%E8%89%B2%EF%BC%88ZIP%EF%BC%89%E7%89%88%E5%AE%89%E8%A3%85/</loc>
+        <lastmod>2019-09-02T01:44:30.997Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://www.huweihuang.com/article/SpringBoot%E8%87%AA%E5%8A%A8%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%8E%9F%E7%90%86/</loc>
         <lastmod>2019-09-01T12:59:05.213Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -121,22 +145,6 @@
     <url>
         <loc>http://www.huweihuang.com/article/Hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
         <lastmod>2019-09-01T09:47:40.493Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.huweihuang.com/article/CurrentHashMap%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-        <lastmod>2019-08-30T03:00:41.314Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://www.huweihuang.com/article/HashMap%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
-        <lastmod>2019-08-30T03:00:39.658Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

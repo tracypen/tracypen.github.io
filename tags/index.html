@@ -134,6 +134,13 @@
 
                         
                         <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -142,13 +149,6 @@
                         
                         <li>
                             <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -198,15 +198,15 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
-                    <a href="#工具" title="工具" rel="4">工具</a>
+                    <a href="#工具" title="工具" rel="5">工具</a>
                 
                     <a href="#运维" title="运维" rel="3">运维</a>
-                
-                    <a href="#Docker" title="Docker" rel="2">Docker</a>
                 
                     <a href="#面试" title="面试" rel="2">面试</a>
                 
                     <a href="#JDK" title="JDK" rel="2">JDK</a>
+                
+                    <a href="#Docker" title="Docker" rel="2">Docker</a>
                 
                     <a href="#docker-compose" title="docker-compose" rel="1">docker-compose</a>
                 
@@ -214,15 +214,17 @@
                 
                     <a href="#Linux" title="Linux" rel="2">Linux</a>
                 
+                    <a href="#SpringBoot" title="SpringBoot" rel="5">SpringBoot</a>
+                
                     <a href="#Intellj IDEA" title="Intellj IDEA" rel="1">Intellj IDEA</a>
                 
-                    <a href="#SpringBoot" title="SpringBoot" rel="5">SpringBoot</a>
+                    <a href="#Web" title="Web" rel="1">Web</a>
+                
+                    <a href="#Mysql" title="Mysql" rel="1">Mysql</a>
                 
                     <a href="#SpringCloud" title="SpringCloud" rel="2">SpringCloud</a>
                 
                     <a href="#微服务" title="微服务" rel="2">微服务</a>
-                
-                    <a href="#Web" title="Web" rel="1">Web</a>
                 
             </div>
 
@@ -233,6 +235,21 @@
                 <span class="fa fa-tag listing-seperator" id="工具">
                     <span class="tag-text">工具</span>
                 </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/windows-下MySQL绿色（ZIP）版安装/">
+                        <h2 class="post-title">
+                            windows 下MySQL绿色（ZIP）版安装
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
                 
                   <!-- <li class="listing-item">
                   <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -349,43 +366,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Docker">
-                    <span class="tag-text">Docker</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/Docker学习笔记-docker-compose/">
-                        <h2 class="post-title">
-                            Docker学习笔记-docker-compose
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/Docker常用命令/">
-                        <h2 class="post-title">
-                            Docker常用命令
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="面试">
                     <span class="tag-text">面试</span>
                 </span>
@@ -450,6 +430,43 @@
                      <a href="/article/HashMap源码学习笔记/">
                         <h2 class="post-title">
                             HashMap源码学习笔记
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Docker">
+                    <span class="tag-text">Docker</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/Docker学习笔记-docker-compose/">
+                        <h2 class="post-title">
+                            Docker学习笔记-docker-compose
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/Docker常用命令/">
+                        <h2 class="post-title">
+                            Docker常用命令
                         </h2>
                         
                     </a>
@@ -531,28 +548,6 @@
                      <a href="/article/Nginx设置开机自动启动/">
                         <h2 class="post-title">
                             Nginx设置开机自动启动
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Intellj IDEA">
-                    <span class="tag-text">Intellj IDEA</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/Intellj IDEA插件/">
-                        <h2 class="post-title">
-                            Intellj IDEA插件
                         </h2>
                         
                     </a>
@@ -645,6 +640,72 @@
             </div>
             
             <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Intellj IDEA">
+                    <span class="tag-text">Intellj IDEA</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/Intellj IDEA插件/">
+                        <h2 class="post-title">
+                            Intellj IDEA插件
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Web">
+                    <span class="tag-text">Web</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/XSS脚本过滤/">
+                        <h2 class="post-title">
+                            XSS脚本过滤
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Mysql">
+                    <span class="tag-text">Mysql</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/windows-下MySQL绿色（ZIP）版安装/">
+                        <h2 class="post-title">
+                            windows 下MySQL绿色（ZIP）版安装
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="SpringCloud">
                     <span class="tag-text">SpringCloud</span>
                 </span>
@@ -709,28 +770,6 @@
                      <a href="/article/Zuul-网关限流-Guava-RateLimiter/">
                         <h2 class="post-title">
                             Zuul 网关限流---Guava RateLimiter
-                        </h2>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="Web">
-                    <span class="tag-text">Web</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/XSS脚本过滤/">
-                        <h2 class="post-title">
-                            XSS脚本过滤
                         </h2>
                         
                     </a>

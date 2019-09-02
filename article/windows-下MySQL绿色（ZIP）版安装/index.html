@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          SpringBoot自定义配置自动提示 - haopeng | Blog
+          windows 下MySQL绿色（ZIP）版安装 - haopeng | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.huweihuang.com/article/SpringBoot自定义配置自动提示/">
+    <link rel="canonical" href="http://www.huweihuang.com/article/windows-下MySQL绿色（ZIP）版安装/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
+                              <a class="tag" href="/tags/#工具" title="工具">工具</a>
+                            
+                              <a class="tag" href="/tags/#Mysql" title="Mysql">Mysql</a>
                             
                         </div>
-                        <h1>SpringBoot自定义配置自动提示</h1>
+                        <h1>windows 下MySQL绿色（ZIP）版安装</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by haopeng on
-                            2019-09-01
+                            2019-09-02
                         </span>
                     </div>
                 
@@ -212,48 +214,46 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <blockquote>
-<p>在<code>SpringBoot</code>项目配置文件中如果使用自定义配置时IDE工具时不会自动提示的，如果想实现自动提示可按如下操作</p>
-</blockquote>
-<h4><span id="编写自定义配置类">编写自定义配置类</span></h4>
-<p>使用注解<code>@ConfigurationProperties</code>并指定前缀</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@ConfigurationProperties(prefix = &quot;zg.river&quot;)</span><br><span class="line">@Data</span><br><span class="line">public class RiverGlobalProperties &#123;</span><br><span class="line"></span><br><span class="line">    private String notAllowRefreshIndex;</span><br><span class="line"></span><br><span class="line">    private String traceInterTime;</span><br><span class="line"></span><br><span class="line">    private String patrolMaxTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4><span id="编写对应的配置文件">编写对应的配置文件</span></h4>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zg:</span><br><span class="line">  river:</span><br><span class="line">    trace-inter-time: 5</span><br><span class="line">    patrol-max-time: 10</span><br></pre></td></tr></table></figure>
-<h4><span id="添加注解处理器">添加注解处理器</span></h4>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;</span><br><span class="line">  &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<h4><span id="修改idea配置">修改IDEA配置</span></h4>
-<p><code>Settings</code> --&gt; <code>Annotation Processor</code> --&gt; 勾选 <code>Enable annotation processing</code><br>
-<img src="https://upload-images.jianshu.io/upload_images/8387919-170f50503d795219.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<h4><span id="编译生成提示文件">编译生成提示文件</span></h4>
-<ul>
-<li>重新编译代码</li>
-<li>生成的文件如下classes/META-INF/spring-configuration-metadata.json<br>
-<img src="https://upload-images.jianshu.io/upload_images/8387919-8975935047e45719.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;hints&quot;: [],</span><br><span class="line">  &quot;groups&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;sourceType&quot;: &quot;com.zg.river.config.properties.RiverGlobalProperties&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;zg.river&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;com.zg.river.config.properties.RiverGlobalProperties&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;properties&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;sourceType&quot;: &quot;com.zg.river.config.properties.RiverGlobalProperties&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;zg.river.not-allow-refresh-index&quot;,</span><br><span class="line">      &quot;description&quot;: &quot;notAllowRefreshIndex&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;java.lang.String&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;sourceType&quot;: &quot;com.zg.river.config.properties.RiverGlobalProperties&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;zg.river.patrol-max-time&quot;,</span><br><span class="line">      &quot;description&quot;: &quot;patrolMaxTime&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;java.lang.String&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;sourceType&quot;: &quot;com.zg.river.config.properties.RiverGlobalProperties&quot;,</span><br><span class="line">      &quot;name&quot;: &quot;zg.river.trace-inter-time&quot;,</span><br><span class="line">      &quot;description&quot;: &quot;traceInterTime&quot;,</span><br><span class="line">      &quot;type&quot;: &quot;java.lang.String&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>之后发现自定义的配置可以自动提示,并且可以进行跳转了<br>
-<img src="https://upload-images.jianshu.io/upload_images/8387919-f5cd87e10f8339c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></li>
-</ul>
-<h4><span id="参考资料">参考资料：</span></h4>
-<ul>
-<li><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html" target="_blank" rel="noopener">Configuration Metadata</a></li>
-</ul>
-
+                <h4><span id="1下载">1.下载</span></h4>
+<p>下载mysql zip文件，到你要安装的目录 <a href="https://downloads.mysql.com/archives/community/" target="_blank" rel="noopener">历史版本下载地址</a></p>
+<h4><span id="2解压配置">2.解压配置</span></h4>
+<p>解压会发现根目录的配置文件my-default.ini 但是默认的配置文件会出现很多问题，比如中文乱码等。所以一般配置个人的默认配置文件：<br>
+在解压后的路径下新建文件：my.ini，具体配置如下：(注意替换其中的路径为你的MySQL解压路径)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[mysql]</span><br><span class="line"># 设置mysql客户端默认字符集</span><br><span class="line">default-character-set=utf8 </span><br><span class="line">[mysqld]</span><br><span class="line">#设置3306端口</span><br><span class="line">port = 3306 </span><br><span class="line"># 设置mysql的安装目录</span><br><span class="line"> basedir =&quot;C:\Program Files\MySQL\mysql-5.7.14-winx64&quot;</span><br><span class="line"># 设置mysql数据库的数据的存放目录</span><br><span class="line"> datadir =&quot;C:\Program Files\MySQL\mysql-5.7.14-winx64\data&quot;</span><br><span class="line"># 允许最大连接数</span><br><span class="line">max_connections=200</span><br><span class="line"># 服务端使用的字符集默认为8比特编码的latin1字符集</span><br><span class="line">character-set-server=utf8</span><br><span class="line"># 创建新表时将使用的默认存储引擎</span><br><span class="line">default-storage-engine=INNODB</span><br></pre></td></tr></table></figure>
+<h4><span id="3安装mysql">3.安装MySQL</span></h4>
+<p>以管理员身份运行命令提示符(很重要)，并切换到MySQL的bin目录下，输入mysqld install命令（注意是mysqld而不是mysql）回车，即可安装MySQL</p>
+<h4><span id="4启动mysql服务">4.启动MySQL服务</span></h4>
+<p>继续输入net start mysql来启动MySQL，输入net stop mysql 来关闭MySQL服务，也可以在服务里面手动启动/关闭MySQL服务；<br>
+但是这块很可能会出现服务无法启动的错误，解决办法如下：<br>
+还是以管理员身份运行cmd.exe，并且进入到MySQL安装目录中的bin目录，然后输入如下命令回车即可：mysqld --initialize-insecure --user=mysql<br>
+执行完上面命令后，MySQL会自建一个data文件夹，并且建好默认数据库，登录的用户名为root，密码为空，之后就可以通过命令net start mysql启动mysql服务了。</p>
+<h4><span id="5配置环境变量">5.配置环境变量</span></h4>
+<p>总不能每次链接MySQL都进入到bin下，所以…<br>
+添加mysql\bin路径到系统path变量中即可，至此MySQL基本安装完成，<br>
+打开cmd输入mysql -uroot -p 提示输入密码，默认安装的mysql是没有密码的，直接回车确定即可。</p>
+<h4><span id="6mysql密码">6.MySQL密码</span></h4>
+<p>为你的MySQL配置密码，以下是MySQL配置密码的常营三种方法，选择其中一种即可。</p>
+<ol>
+<li>用root 进入mysql后</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;set password =password(&apos;你的密码&apos;);</span><br><span class="line">  mysql&gt;flush privileges;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>使用GRANT语句</li>
+</ol>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;grant all on *.* to &apos;root&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;你的密码&apos;with grant option ;</span><br><span class="line">mysql&gt;flush privileges;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>进入mysql库修改user表</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;use mysql;</span><br><span class="line">mysql&gt;update user set password=password(&apos;你的密码&apos;) where user=&apos;root&apos;; </span><br><span class="line">mysql&gt;flush privileges;</span><br></pre></td></tr></table></figure>
                 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/article/SpringBoot中获取spring-profiles-active的值/" data-toggle="tooltip" data-placement="top" title="SpringBoot中获取spring.profiles.active的值">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/article/XSS脚本过滤/" data-toggle="tooltip" data-placement="top" title="XSS脚本过滤">Next Post &rarr;</a>
+                            <a href="/article/SpringBoot自动加载的原理/" data-toggle="tooltip" data-placement="top" title="SpringBoot自动加载的原理">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -309,7 +309,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">编写自定义配置类</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">编写对应的配置文件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">添加注解处理器</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">修改IDEA配置</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">编译生成提示文件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">参考资料：</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1.下载</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2.解压配置</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">3.安装MySQL</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">4.启动MySQL服务</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">5.配置环境变量</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">6.MySQL密码</span></a></li></ol>
         
         </div>
       </aside>
@@ -329,7 +329,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
+                          <a class="tag" href="/tags/#工具" title="工具">工具</a>
+                        
+                          <a class="tag" href="/tags/#Mysql" title="Mysql">Mysql</a>
                         
                     </div>
                 </section>

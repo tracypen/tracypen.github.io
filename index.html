@@ -134,6 +134,13 @@
 
                         
                         <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -142,13 +149,6 @@
                         
                         <li>
                             <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -283,6 +283,42 @@
               <a href="/tags/#运维" title="运维">运维</a>
             
               <a href="/tags/#Linux" title="Linux">Linux</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/windows-下MySQL绿色（ZIP）版安装/">
+        <h2 class="post-title">
+                                 
+            windows 下MySQL绿色（ZIP）版安装
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1.下载
+下载mysql zip文件，到你要安装的目录 历史版本下载地址
+2.解压配置
+解压会发现根目录的配置文件my-default.ini 但是默认的配置文件会出现很多问题，比如中文乱码等。所以一般配置个人的默认配置文件：
+在解压后的路径下新建文件：my.ini，具体配置如下：(注意替换其中的路径为你的MySQL解压路径)
+12345678910111213141516[mysql]# ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#工具" title="工具">工具</a>
+            
+              <a href="/tags/#Mysql" title="Mysql">Mysql</a>
             
         </div>
     
@@ -546,42 +582,6 @@ vim /etc/init.d/nginx
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/article/微服务下日志处理组件/">
-        <h2 class="post-title">
-                                 
-            微服务下日志处理组件
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-与传统单体应用不同，微服务下由于，项目模块、业务拆分成多个独立系统，数据库一般也相互独立。所以对于日志的统一管理和收集，也趋于复杂，这里提供一种通用思路借助于springboot自动配置和spring事件发布订阅、SpringAop以及组件化思想，构建一个通用日志组件
-
-实现思路与步骤
-1.通过自定义注解@ZgLog携带项目模块名和日志操作类型
-1234567891011121314151......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by haopeng on
-            2019-09-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#SpringCloud" title="SpringCloud">SpringCloud</a>
-            
-              <a href="/tags/#微服务" title="微服务">微服务</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -623,15 +623,11 @@ vim /etc/init.d/nginx
     <div class="tags">
         
             
-            <a href="/tags/#工具" title="工具" rel="4">工具</a>
+            <a href="/tags/#工具" title="工具" rel="5">工具</a>
             
         
             
             <a href="/tags/#运维" title="运维" rel="3">运维</a>
-            
-        
-            
-            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
             
         
             
@@ -640,6 +636,10 @@ vim /etc/init.d/nginx
         
             
             <a href="/tags/#JDK" title="JDK" rel="2">JDK</a>
+            
+        
+            
+            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
             
         
             
@@ -655,11 +655,19 @@ vim /etc/init.d/nginx
             
         
             
+            <a href="/tags/#SpringBoot" title="SpringBoot" rel="5">SpringBoot</a>
+            
+        
+            
             <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="1">Intellj IDEA</a>
             
         
             
-            <a href="/tags/#SpringBoot" title="SpringBoot" rel="5">SpringBoot</a>
+            <a href="/tags/#Web" title="Web" rel="1">Web</a>
+            
+        
+            
+            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
             
         
             
@@ -668,10 +676,6 @@ vim /etc/init.d/nginx
         
             
             <a href="/tags/#微服务" title="微服务" rel="2">微服务</a>
-            
-        
-            
-            <a href="/tags/#Web" title="Web" rel="1">Web</a>
             
         
     </div>
@@ -727,6 +731,10 @@ vim /etc/init.d/nginx
     <ul>
       
         <li>
+          <a href="/article/windows-下MySQL绿色（ZIP）版安装/">windows 下MySQL绿色（ZIP）版安装</a>
+        </li>
+      
+        <li>
           <a href="/article/SpringBoot自动加载的原理/">SpringBoot自动加载的原理</a>
         </li>
       
@@ -740,10 +748,6 @@ vim /etc/init.d/nginx
       
         <li>
           <a href="/article/Spring-Boot-Admin2-0集成/">Spring Boot Admin2.0集成</a>
-        </li>
-      
-        <li>
-          <a href="/article/Intellj IDEA插件/">Intellj IDEA插件</a>
         </li>
       
     </ul>
@@ -770,7 +774,7 @@ vim /etc/init.d/nginx
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>
