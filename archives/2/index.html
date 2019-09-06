@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          About - haopeng | Blog
+          haopeng | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.huweihuang.com/about/">
+    <link rel="canonical" href="http://www.huweihuang.com/archives/2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/about.jpg')
-            /*page*/
+            background-image: url('/img/header_img/home.jpg') 
+            /*config*/
         
     }
     
@@ -86,9 +86,9 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
                     <div class="site-heading">
-                        <h1>About</h1>
+                        <h1>haopeng</h1>
                         <!--<hr class="small">-->
-                        <span class="subheading">走在成为极客的路上</span>
+                        <span class="subheading">个人博客</span>
                     </div>
                 
 
@@ -206,63 +206,399 @@
                 post-container
             ">
             
-                <h3><span id="一句话">一句话</span></h3>
-<blockquote>
-<p>Just do it !    (翻译：我只是个搬砖的！哭笑脸)</p>
-</blockquote>
-<h3><span id="关于我">关于我</span></h3>
-<blockquote>
-<p>一个莫名其妙的，喜欢敲代码，喜欢研究技术的，表面上高冷、不苟言笑的，</p>
-<p>偶尔又嬉皮笑脸，偶尔又特立独行的，双重性格的技术爱好者！</p>
-</blockquote>
-<h3><span id="兴趣方向">兴趣方向</span></h3>
-<blockquote>
-<p>容器云（Docker、Kubernetes等）相关生态技术研究。</p>
-</blockquote>
-<h3><span id="参与社区">参与社区</span></h3>
-<blockquote>
-<p>CSDN博客:<a href="http://blog.csdn.net/huwh_" target="_blank" rel="noopener">http://blog.csdn.net/huwh_</a></p>
-<p>Github:<a href="https://github.com/tracypen" target="_blank" rel="noopener">https://github.com/tracypen</a></p>
-<p>阿里云栖社区:<a href="https://yq.aliyun.com/u/huweihuang" target="_blank" rel="noopener">https://yq.aliyun.com/u/huweihuang</a></p>
-</blockquote>
-<h3><span id="联系我">联系我</span></h3>
-<blockquote>
-<p>Email: <a href="mailto:haopeng@gmail.com" target="_blank" rel="noopener">haopeng@gmail.com</a></p>
-</blockquote>
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/article/Nginx设置开机自动启动/">
+        <h2 class="post-title">
+                                 
+            Nginx设置开机自动启动
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            1.在/etc/init.d下创建文件nginx
+vim /etc/init.d/nginx
+内容可以参考[Nginx官方文档]
+(https://www.nginx.com/resources/wiki/start/topics/examples/redhatnginxinit/)
+123456789101112131415161718192021222324252627282930313......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#工具" title="工具">工具</a>
+            
+              <a href="/tags/#运维" title="运维">运维</a>
+            
+              <a href="/tags/#Linux" title="Linux">Linux</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/微服务下日志处理组件/">
+        <h2 class="post-title">
+                                 
+            微服务下日志处理组件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+与传统单体应用不同，微服务下由于，项目模块、业务拆分成多个独立系统，数据库一般也相互独立。所以对于日志的统一管理和收集，也趋于复杂，这里提供一种通用思路借助于springboot自动配置和spring事件发布订阅、SpringAop以及组件化思想，构建一个通用日志组件
+
+实现思路与步骤
+1.通过自定义注解@ZgLog携带项目模块名和日志操作类型
+1234567891011121314151......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#SpringCloud" title="SpringCloud">SpringCloud</a>
+            
+              <a href="/tags/#微服务" title="微服务">微服务</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/SpringBoot项目配置文件密码加密-jasypt/">
+        <h2 class="post-title">
+                                 
+            SpringBoot项目配置文件密码加密(jasypt)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+引入依赖
+
+12345&lt;dependency&gt;        &lt;groupId&gt;com.github.ulisesbocchio&lt;/groupId&gt;        &lt;artifactId&gt;jasypt-spring-boot-starter&lt;/artifactId&gt;        &lt;version&gt;2.0.0&lt;/......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Zuul-网关限流-Guava-RateLimiter/">
+        <h2 class="post-title">
+                                 
+            Zuul 网关限流---Guava RateLimiter
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+限流算法有漏桶算法和令牌桶算法,guava的RateLimiter使用的是令牌桶算法也就是以固定的频率向桶中放入令牌，例如一秒钟10枚令牌，实际业务在每次响应请求之前都从桶中获取令牌，只有取到令牌的请求才会被成功响应，获取的方式有两种：阻塞等待令牌或者取不到立即返回失败
+
+
+Guava RateLimiter 使用
+1234567891011121314151617181920212223......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#SpringCloud" title="SpringCloud">SpringCloud</a>
+            
+              <a href="/tags/#微服务" title="微服务">微服务</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/SpringBoot中获取spring-profiles-active的值/">
+        <h2 class="post-title">
+                                 
+            SpringBoot中获取spring.profiles.active的值
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+SpringBoot通过@Profile(“dev”) 可以在配置类中限定配置环境，在实际开发中可能需要方法级别的控制，也就是说获取到当前环境的具体信息
+
+最终通过查看SpringBoot日志以及源码找到答案
+
+SpringBoot启动日志中有下面这句：
+
+115:57:56.128 [restartedMain] INFO  c.d.o.OptplatformApplication - ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/SpringBoot自定义配置自动提示/">
+        <h2 class="post-title">
+                                 
+            SpringBoot自定义配置自动提示
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+在SpringBoot项目配置文件中如果使用自定义配置时IDE工具时不会自动提示的，如果想实现自动提示可按如下操作
+
+编写自定义配置类
+使用注解@ConfigurationProperties并指定前缀
+1234567891011@Component@ConfigurationProperties(prefix = &quot;zg.river&quot;)@Datapublic clas......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/XSS脚本过滤/">
+        <h2 class="post-title">
+                                 
+            XSS脚本过滤
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            XSS脚本过滤
+
+脚本攻击经常是项目测试人员或者“不法分子”闲着没事干，想办法让你的程序不正常，最近项目中刚好用到所以就贴出来做个笔记。
+
+1.思路
+我们可以通过servlet规范中的过滤器，对每一次请求进行过滤 --&gt; 将请求参数获取到对脚本数据进行转义处理后再进行持久化操作，比如&lt; script &gt; &lt; /script&gt;中的’&lt;’ ,’&gt;'号。
+......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Web" title="Web">Web</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Windows配置Github的SSH-key/">
+        <h2 class="post-title">
+                                 
+            Windows配置Github的SSH-key
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            检查已存在的SSH key
+
+打开Git Bash
+输入 cd ~/.ssh/  ls
+
+生成新的SSH key
+
+打开Git Bash
+ssh-keygen -t rsa -b 4096 -C &quot;your_email@.com&quot;example 生成一个新的ssh key，使用填入的邮箱地址作为ssh key的标签，并生成RSA密钥对
+出现如下提示时： Enter a f......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#工具" title="工具">工具</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Hexo常用命令/">
+        <h2 class="post-title">
+            
+                <i class="fa fa-thumb-tack" style="color:#F4711F" ></i>
+                <!-- <i class="fa fa-thumb-tack" style="color:#F89E8C" ></i> -->
+                <!-- <i class="fa fa-thumb-tack" style="color:#1CB7ED" ></i> -->
+                <font color=#F4711F>置顶</font>
+                <!-- <font color=#F89E8C>置顶</font>  -->
+                <!-- <font color=#1CB7ED>置顶</font>  -->
+                                 
+            Hexo常用命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装
+123npm install hexo -g #安装  npm update hexo -g #升级  hexo init #初始化
+简写
+12345hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #新建文章hexo p == hexo publishhexo g == hexo generate#生成hexo s == hex......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Hexo" title="Hexo">Hexo</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Linux禁止Root用户登录/">
+        <h2 class="post-title">
+            
+                <i class="fa fa-thumb-tack" style="color:#F4711F" ></i>
+                <!-- <i class="fa fa-thumb-tack" style="color:#F89E8C" ></i> -->
+                <!-- <i class="fa fa-thumb-tack" style="color:#1CB7ED" ></i> -->
+                <font color=#F4711F>置顶</font>
+                <!-- <font color=#F89E8C>置顶</font>  -->
+                <!-- <font color=#1CB7ED>置顶</font>  -->
+                                 
+            Centos禁止Root用户登录
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+服务器安全，禁止root用户登录，禁止普通用户切换至root用户，普通用户权限细分控制
+
+新建用户
+123#For Macbrew install nodebrew install git...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-08-30
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#运维" title="运维">运维</a>
+            
+              <a href="/tags/#Linux" title="Linux">Linux</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/archives/3/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
 
 
                 <br>
 
                 <!-- require APlayer -->
                 
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
-                    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
-                
-                    <div class="aplayer"
-                        data-id="310970433"
-                        data-server="netease"
-                        data-type="playlist"
-                        data-fixed="false" >
-                    </div>
-                
 
                 <!-- 如果开启评论功能 -->
-                
-                    <hr>
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-
                 
             </div>
 
