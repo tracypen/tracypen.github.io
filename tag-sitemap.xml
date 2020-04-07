@@ -51,22 +51,8 @@
     </url>
 
     <url>
-        <loc>http://www.huweihuang.com/tags/Intellj-IDEA/</loc>
-        <lastmod>2019-09-01T12:55:57.241Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://www.huweihuang.com/tags/%E8%BF%90%E7%BB%B4/</loc>
         <lastmod>2019-09-01T12:57:43.309Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>http://www.huweihuang.com/tags/SpringBoot/</loc>
-        <lastmod>2019-09-01T12:59:05.213Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -100,15 +86,29 @@
     </url>
 
     <url>
-        <loc>http://www.huweihuang.com/tags/%E5%B7%A5%E5%85%B7/</loc>
-        <lastmod>2019-09-06T08:09:58.749Z</lastmod>
+        <loc>http://www.huweihuang.com/tags/RabbitMQ/</loc>
+        <lastmod>2019-09-06T08:23:49.333Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://www.huweihuang.com/tags/RabbitMQ/</loc>
-        <lastmod>2019-09-06T08:09:58.749Z</lastmod>
+        <loc>http://www.huweihuang.com/tags/%E5%B7%A5%E5%85%B7/</loc>
+        <lastmod>2019-09-06T13:35:00.194Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.huweihuang.com/tags/Intellj-IDEA/</loc>
+        <lastmod>2019-09-06T13:35:00.194Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.huweihuang.com/tags/SpringBoot/</loc>
+        <lastmod>2019-09-07T14:01:38.407Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

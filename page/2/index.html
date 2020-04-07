@@ -134,14 +134,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -208,6 +208,131 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/article/Docker学习笔记-docker-compose/">
+        <h2 class="post-title">
+                                 
+            Docker学习笔记-docker-compose
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+通过以下命令自动下载并安装适应系统版本的Compose
+
+1sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+为安装脚本添加执行权限
+
+1chmod +x ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
+            
+              <a href="/tags/#docker-compose" title="docker-compose">docker-compose</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Spring-Boot-Admin2-0集成/">
+        <h2 class="post-title">
+                                 
+            Spring Boot Admin2.0集成
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            方式一
+在 Spring Boot 项目中，Spring Boot Admin 作为 Server 端，其他的要被监控的应用作为 Client 端，基于这种的配置如下步骤：
+AdminServer
+1234567891011&lt;dependencies&gt;        &lt;dependency&gt;            &lt;groupId&gt;de.codecentr......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Intellj IDEA插件/">
+        <h2 class="post-title">
+                                 
+            Intellj IDEA插件
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            官网插件库：https://plugins.jetbrains.com/
+
+
+Lombok Plugin
+
+
+Alibaba Java coding Guidelines
+
+
+Grep Console
+
+
+Translation
+
+
+MyBatisCodeHelperPro
+
+
+Free Mybatis plugin
+
+
+JRebel for IntelliJ
+
+
+Intellij-Gite......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#工具" title="工具">工具</a>
+            
+              <a href="/tags/#Intellj IDEA" title="Intellj IDEA">Intellj IDEA</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -449,119 +574,6 @@ SpringBoot启动日志中有下面这句：
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/article/XSS脚本过滤/">
-        <h2 class="post-title">
-                                 
-            XSS脚本过滤
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            XSS脚本过滤
-
-脚本攻击经常是项目测试人员或者“不法分子”闲着没事干，想办法让你的程序不正常，最近项目中刚好用到所以就贴出来做个笔记。
-
-1.思路
-我们可以通过servlet规范中的过滤器，对每一次请求进行过滤 --&gt; 将请求参数获取到对脚本数据进行转义处理后再进行持久化操作，比如&lt; script &gt; &lt; /script&gt;中的’&lt;’ ,’&gt;'号。
-......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by haopeng on
-            2019-09-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Web" title="Web">Web</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Windows配置Github的SSH-key/">
-        <h2 class="post-title">
-                                 
-            Windows配置Github的SSH-key
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            检查已存在的SSH key
-
-打开Git Bash
-输入 cd ~/.ssh/  ls
-
-生成新的SSH key
-
-打开Git Bash
-ssh-keygen -t rsa -b 4096 -C &quot;your_email@.com&quot;example 生成一个新的ssh key，使用填入的邮箱地址作为ssh key的标签，并生成RSA密钥对
-出现如下提示时： Enter a f......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by haopeng on
-            2019-09-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#工具" title="工具">工具</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/CurrentHashMap源码学习笔记/">
-        <h2 class="post-title">
-                                 
-            CurrentHashMap源码学习笔记
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-由于HashMap是线程不安全的在多线程并发下容易出现问题，比如自身的死锁问题,而HashTable虽然是线程安全的,但是由于它的内部是通过对所有操作方法进行方法级别的synchronized加锁,导致性能太低(synchronized太过重量级),所以引入CurrentHashMap
-
-jdk1.7
-
-采用segment分段枷锁机制来控制并发
-
-
-segment[] 分段锁数组
-segm......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by haopeng on
-            2018-06-13
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#面试" title="面试">面试</a>
-            
-              <a href="/tags/#JDK" title="JDK">JDK</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -607,19 +619,11 @@ segm......
     <div class="tags">
         
             
-            <a href="/tags/#工具" title="工具" rel="5">工具</a>
+            <a href="/tags/#工具" title="工具" rel="7">工具</a>
             
         
             
             <a href="/tags/#运维" title="运维" rel="3">运维</a>
-            
-        
-            
-            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
-            
-        
-            
-            <a href="/tags/#docker-compose" title="docker-compose" rel="1">docker-compose</a>
             
         
             
@@ -631,15 +635,15 @@ segm......
             
         
             
-            <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
+            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
             
         
             
-            <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="1">Intellj IDEA</a>
+            <a href="/tags/#docker-compose" title="docker-compose" rel="1">docker-compose</a>
             
         
             
-            <a href="/tags/#RabbitMQ" title="RabbitMQ" rel="1">RabbitMQ</a>
+            <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="2">Intellj IDEA</a>
             
         
             
@@ -647,15 +651,15 @@ segm......
             
         
             
-            <a href="/tags/#SpringBoot" title="SpringBoot" rel="5">SpringBoot</a>
+            <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
             
         
             
-            <a href="/tags/#SpringCloud" title="SpringCloud" rel="2">SpringCloud</a>
+            <a href="/tags/#SpringBoot" title="SpringBoot" rel="6">SpringBoot</a>
             
         
             
-            <a href="/tags/#微服务" title="微服务" rel="2">微服务</a>
+            <a href="/tags/#RabbitMQ" title="RabbitMQ" rel="2">RabbitMQ</a>
             
         
             
@@ -664,6 +668,14 @@ segm......
         
             
             <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
+            
+        
+            
+            <a href="/tags/#SpringCloud" title="SpringCloud" rel="2">SpringCloud</a>
+            
+        
+            
+            <a href="/tags/#微服务" title="微服务" rel="2">微服务</a>
             
         
             
@@ -723,23 +735,23 @@ segm......
     <ul>
       
         <li>
+          <a href="/article/SpringBoot打war包/">SpringBoot打war包</a>
+        </li>
+      
+        <li>
+          <a href="/article/IDEA必备配置/">IDEA必备配置</a>
+        </li>
+      
+        <li>
+          <a href="/article/RabbitMQ安装/">RabbitMQ安装</a>
+        </li>
+      
+        <li>
           <a href="/article/RabbitMQ核心概念/">RabbitMQ核心概念</a>
         </li>
       
         <li>
           <a href="/article/事务的传播机制与隔离级别/">事务的传播机制与隔离级别</a>
-        </li>
-      
-        <li>
-          <a href="/article/windows-下MySQL绿色（ZIP）版安装/">windows 下MySQL绿色（ZIP）版安装</a>
-        </li>
-      
-        <li>
-          <a href="/article/SpringBoot自动加载的原理/">SpringBoot自动加载的原理</a>
-        </li>
-      
-        <li>
-          <a href="/article/Centos搭建GitLab/">Centos搭建GitLab</a>
         </li>
       
     </ul>
@@ -766,7 +778,7 @@ segm......
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>
@@ -808,7 +820,7 @@ segm......
 
                 </ul>
        <!--         <p class="copyright text-muted">
-                    Copyright &copy; haopeng 2019 
+                    Copyright &copy; haopeng 2020 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
