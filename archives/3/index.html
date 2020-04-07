@@ -134,14 +134,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -208,6 +208,83 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/article/Windows配置Github的SSH-key/">
+        <h2 class="post-title">
+                                 
+            Windows配置Github的SSH-key
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            检查已存在的SSH key
+
+打开Git Bash
+输入 cd ~/.ssh/  ls
+
+生成新的SSH key
+
+打开Git Bash
+ssh-keygen -t rsa -b 4096 -C &quot;your_email@.com&quot;example 生成一个新的ssh key，使用填入的邮箱地址作为ssh key的标签，并生成RSA密钥对
+出现如下提示时： Enter a f......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#工具" title="工具">工具</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Hexo常用命令/">
+        <h2 class="post-title">
+            
+                <i class="fa fa-thumb-tack" style="color:#F4711F" ></i>
+                <!-- <i class="fa fa-thumb-tack" style="color:#F89E8C" ></i> -->
+                <!-- <i class="fa fa-thumb-tack" style="color:#1CB7ED" ></i> -->
+                <font color=#F4711F>置顶</font>
+                <!-- <font color=#F89E8C>置顶</font>  -->
+                <!-- <font color=#1CB7ED>置顶</font>  -->
+                                 
+            Hexo常用命令
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装
+123npm install hexo -g #安装  npm update hexo -g #升级  hexo init #初始化
+简写
+12345hexo n &quot;我的博客&quot; == hexo new &quot;我的博客&quot; #新建文章hexo p == hexo publishhexo g == hexo generate#生成hexo s == hex......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Hexo" title="Hexo">Hexo</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -374,7 +451,11 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
             
         
             
-            <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="2">Intellj IDEA</a>
+            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
+            
+        
+            
+            <a href="/tags/#docker-compose" title="docker-compose" rel="1">docker-compose</a>
             
         
             
@@ -382,15 +463,19 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
             
         
             
-            <a href="/tags/#JDK" title="JDK" rel="2">JDK</a>
+            <a href="/tags/#JDK" title="JDK" rel="3">JDK</a>
             
         
             
-            <a href="/tags/#Docker" title="Docker" rel="2">Docker</a>
+            <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
             
         
             
-            <a href="/tags/#docker-compose" title="docker-compose" rel="1">docker-compose</a>
+            <a href="/tags/#Intellj IDEA" title="Intellj IDEA" rel="2">Intellj IDEA</a>
+            
+        
+            
+            <a href="/tags/#设计模式" title="设计模式" rel="1">设计模式</a>
             
         
             
@@ -402,23 +487,11 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
             
         
             
-            <a href="/tags/#SpringBoot" title="SpringBoot" rel="5">SpringBoot</a>
-            
-        
-            
-            <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
-            
-        
-            
-            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
+            <a href="/tags/#SpringBoot" title="SpringBoot" rel="6">SpringBoot</a>
             
         
             
             <a href="/tags/#Web" title="Web" rel="1">Web</a>
-            
-        
-            
-            <a href="/tags/#数据库" title="数据库" rel="1">数据库</a>
             
         
             
@@ -427,6 +500,14 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
         
             
             <a href="/tags/#微服务" title="微服务" rel="2">微服务</a>
+            
+        
+            
+            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
+            
+        
+            
+            <a href="/tags/#数据库" title="数据库" rel="1">数据库</a>
             
         
     </div>
@@ -482,6 +563,14 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
     <ul>
       
         <li>
+          <a href="/article/JDK动态代理和CGLIB动态代理/">JDK动态代理和CGLIB动态代理</a>
+        </li>
+      
+        <li>
+          <a href="/article/SpringBoot打war包/">SpringBoot打war包</a>
+        </li>
+      
+        <li>
           <a href="/article/IDEA必备配置/">IDEA必备配置</a>
         </li>
       
@@ -491,14 +580,6 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
       
         <li>
           <a href="/article/RabbitMQ核心概念/">RabbitMQ核心概念</a>
-        </li>
-      
-        <li>
-          <a href="/article/事务的传播机制与隔离级别/">事务的传播机制与隔离级别</a>
-        </li>
-      
-        <li>
-          <a href="/article/windows-下MySQL绿色（ZIP）版安装/">windows 下MySQL绿色（ZIP）版安装</a>
         </li>
       
     </ul>
@@ -525,7 +606,7 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">20</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>
@@ -567,7 +648,7 @@ Java中HashMap源码学习笔记。1.8 / 1.7 中设计思路比较
 
                 </ul>
        <!--         <p class="copyright text-muted">
-                    Copyright &copy; haopeng 2019 
+                    Copyright &copy; haopeng 2020 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">

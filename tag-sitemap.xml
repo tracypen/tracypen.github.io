@@ -72,13 +72,6 @@
     </url>
 
     <url>
-        <loc>http://www.huweihuang.com/tags/JDK/</loc>
-        <lastmod>2019-09-02T01:50:45.201Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://www.huweihuang.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
         <lastmod>2019-09-02T02:06:29.540Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -109,6 +102,20 @@
     <url>
         <loc>http://www.huweihuang.com/tags/SpringBoot/</loc>
         <lastmod>2019-09-07T14:01:38.407Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.huweihuang.com/tags/JDK/</loc>
+        <lastmod>2020-04-07T01:10:14.585Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.huweihuang.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+        <lastmod>2020-04-07T01:10:14.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
