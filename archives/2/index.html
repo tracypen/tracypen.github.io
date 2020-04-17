@@ -134,6 +134,13 @@
 
                         
                         <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archive/">Archives</a>
                         </li>
                         
@@ -142,13 +149,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -208,6 +208,39 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/article/Centos搭建GitLab/">
+        <h2 class="post-title">
+                                 
+            Centos搭建GitLab
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            编辑源
+使用清华大学 TUNA 镜像源打开网址将内容复制到gitlab-ce.repo文件中，编辑路径vim /etc/yum.repos.d/gitlab-ce.repo
+12345[gitlab-ce]name=Gitlab CE Repositorybaseurl=https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el$release......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by haopeng on
+            2019-09-01
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#工具" title="工具">工具</a>
+            
+              <a href="/tags/#运维" title="运维">运维</a>
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -554,40 +587,6 @@ SpringBoot启动日志中有下面这句：
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/article/SpringBoot自定义配置自动提示/">
-        <h2 class="post-title">
-                                 
-            SpringBoot自定义配置自动提示
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-在SpringBoot项目配置文件中如果使用自定义配置时IDE工具时不会自动提示的，如果想实现自动提示可按如下操作
-
-编写自定义配置类
-使用注解@ConfigurationProperties并指定前缀
-1234567891011@Component@ConfigurationProperties(prefix = &quot;zg.river&quot;)@Datapublic clas......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by haopeng on
-            2019-09-01
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#SpringBoot" title="SpringBoot">SpringBoot</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -633,19 +632,19 @@ SpringBoot启动日志中有下面这句：
     <div class="tags">
         
             
-            <a href="/tags/#工具" title="工具" rel="7">工具</a>
-            
-        
-            
-            <a href="/tags/#运维" title="运维" rel="2">运维</a>
-            
-        
-            
             <a href="/tags/#面试" title="面试" rel="2">面试</a>
             
         
             
             <a href="/tags/#JDK" title="JDK" rel="3">JDK</a>
+            
+        
+            
+            <a href="/tags/#工具" title="工具" rel="7">工具</a>
+            
+        
+            
+            <a href="/tags/#运维" title="运维" rel="2">运维</a>
             
         
             
@@ -665,15 +664,23 @@ SpringBoot启动日志中有下面这句：
             
         
             
-            <a href="/tags/#设计模式" title="设计模式" rel="1">设计模式</a>
-            
-        
-            
             <a href="/tags/#Linux" title="Linux" rel="1">Linux</a>
             
         
             
+            <a href="/tags/#设计模式" title="设计模式" rel="1">设计模式</a>
+            
+        
+            
             <a href="/tags/#RabbitMQ" title="RabbitMQ" rel="2">RabbitMQ</a>
+            
+        
+            
+            <a href="/tags/#Redis" title="Redis" rel="2">Redis</a>
+            
+        
+            
+            <a href="/tags/#MQ" title="MQ" rel="1">MQ</a>
             
         
             
@@ -685,18 +692,6 @@ SpringBoot启动日志中有下面这句：
             
         
             
-            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
-            
-        
-            
-            <a href="/tags/#Spring" title="Spring" rel="1">Spring</a>
-            
-        
-            
-            <a href="/tags/#分布式锁" title="分布式锁" rel="1">分布式锁</a>
-            
-        
-            
             <a href="/tags/#SpringCloud" title="SpringCloud" rel="2">SpringCloud</a>
             
         
@@ -705,7 +700,19 @@ SpringBoot启动日志中有下面这句：
             
         
             
+            <a href="/tags/#Mysql" title="Mysql" rel="1">Mysql</a>
+            
+        
+            
             <a href="/tags/#数据库" title="数据库" rel="1">数据库</a>
+            
+        
+            
+            <a href="/tags/#Spring" title="Spring" rel="1">Spring</a>
+            
+        
+            
+            <a href="/tags/#分布式锁" title="分布式锁" rel="1">分布式锁</a>
             
         
     </div>
@@ -761,6 +768,10 @@ SpringBoot启动日志中有下面这句：
     <ul>
       
         <li>
+          <a href="/article/Redis实现轻量级消息队列/">Redis实现轻量级消息队列</a>
+        </li>
+      
+        <li>
           <a href="/article/使用SpringIntegration实现分布式锁/">使用SpringIntegration实现分布式锁</a>
         </li>
       
@@ -774,10 +785,6 @@ SpringBoot启动日志中有下面这句：
       
         <li>
           <a href="/article/IDEA必备配置/">IDEA必备配置</a>
-        </li>
-      
-        <li>
-          <a href="/article/RabbitMQ安装/">RabbitMQ安装</a>
         </li>
       
     </ul>
@@ -804,7 +811,7 @@ SpringBoot启动日志中有下面这句：
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li></ul>
     </div>
 
         <hr>
