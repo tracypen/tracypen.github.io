@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favor16.ico?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favor32.ico?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="下载        JDK1.8官方下载链接：https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;jdk8-downloads-2133151.html Elasticsearch7.3 官方下载链接：https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F; Kibana7.3官方下载链接：http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Filebeat实现ELK日志收集">
+<meta property="og:url" content="https://hawawa.gitee.io/2022/05/08/Filebeat%E5%AE%9E%E7%8E%B0ELK%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="peng.hao">
+<meta property="og:description" content="下载        JDK1.8官方下载链接：https:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;jdk8-downloads-2133151.html Elasticsearch7.3 官方下载链接：https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F; Kibana7.3官方下载链接：http">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-08T13:19:57.000Z">
+<meta property="article:modified_time" content="2022-05-19T08:22:43.552Z">
+<meta property="article:author" content="hao peng">
+<meta property="article:tag" content="elk">
+<meta name="twitter:card" content="summary"><title>Filebeat实现ELK日志收集 | peng.hao</title><link ref="canonical" href="https://hawawa.gitee.io/2022/05/08/Filebeat%E5%AE%9E%E7%8E%B0ELK%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">peng.hao</div><div class="header-banner-info__subtitle"></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Filebeat实现ELK日志收集</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-05-08</span></span></div></header><div class="post-body">
+        <h3 id="下载"   >
+          <a href="#下载" class="heading-link"><i class="fas fa-link"></i></a><a href="#下载" class="headerlink" title="下载"></a>下载</h3>
+      <ul>
+<li>JDK1.8官方下载链接：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" >https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></li>
+<li>Elasticsearch7.3 官方下载链接：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/" >https://www.elastic.co/cn/downloads/</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></li>
+<li>Kibana7.3官方下载链接：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/" >https://www.elastic.co/cn/downloads/</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></li>
+</ul>
+<span id="more"></span>
+
+        <h3 id="解压"   >
+          <a href="#解压" class="heading-link"><i class="fas fa-link"></i></a><a href="#解压" class="headerlink" title="解压"></a>解压</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf jdk-8u171-linux-x64.tar.gz </span><br><span class="line">tar -zxvf elasticsearch-7.3.1-linux-x86_64.tar.gz </span><br><span class="line">tar -zxvf kibana-7.3.1-linux-x86_64.tar.gz </span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="配置环境变量"   >
+          <a href="#配置环境变量" class="heading-link"><i class="fas fa-link"></i></a><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=/usr/java</span><br><span class="line">JRE_HOME=/usr/java/jre</span><br><span class="line">CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">export JAVA_HOME JRE_HOME CLASS_PATH PATH</span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">java -version</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="配置ElasticSearch"   >
+          <a href="#配置ElasticSearch" class="heading-link"><i class="fas fa-link"></i></a><a href="#配置ElasticSearch" class="headerlink" title="配置ElasticSearch"></a>配置ElasticSearch</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/elasticsearch/config/elasticsearch.yml </span><br><span class="line"></span><br><span class="line">cluster.name: exam-application</span><br><span class="line">node.name: node01</span><br><span class="line">network.host: 0.0.0.0</span><br><span class="line">http.port: 8020</span><br><span class="line">http.cors.enabled: true</span><br><span class="line">http.cors.allow-origin: &quot;*&quot;</span><br><span class="line">http.cors.allow-headers: Authorization</span><br><span class="line">xpack.security.enabled: true</span><br><span class="line"></span><br><span class="line">xpack.security.transport.ssl.enabled: true</span><br><span class="line">cluster.initial_master_nodes: [&quot;node01&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h3 id="设置ES参数"   >
+          <a href="#设置ES参数" class="heading-link"><i class="fas fa-link"></i></a><a href="#设置ES参数" class="headerlink" title="设置ES参数"></a>设置ES参数</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/elasticsearch/config/jvm.options</span><br><span class="line">默认初始、最大堆内存为1G 根据需求更改</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="添加es启动用户"   >
+          <a href="#添加es启动用户" class="heading-link"><i class="fas fa-link"></i></a><a href="#添加es启动用户" class="headerlink" title="添加es启动用户"></a>添加es启动用户</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">useradd  esuser</span><br><span class="line"></span><br><span class="line">修改密码</span><br><span class="line">passwd esuser</span><br><span class="line"></span><br><span class="line">chown -R estest /usr/elasticsearch/</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="修改系统参数"   >
+          <a href="#修改系统参数" class="heading-link"><i class="fas fa-link"></i></a><a href="#修改系统参数" class="headerlink" title="修改系统参数"></a>修改系统参数</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br><span class="line">vm.max_map_count=655360</span><br><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line">vim /etc/security/limits.conf</span><br><span class="line"></span><br><span class="line">*               soft    nofile          65536</span><br><span class="line">*               hard    nofile          65536</span><br><span class="line">*               soft    nproc           4096</span><br><span class="line">*               hard    nproc           4096</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h3 id="启动es"   >
+          <a href="#启动es" class="heading-link"><i class="fas fa-link"></i></a><a href="#启动es" class="headerlink" title="启动es"></a>启动es</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su  esuser</span><br><span class="line">./bin/elasticsearch -d</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="配置密码"   >
+          <a href="#配置密码" class="heading-link"><i class="fas fa-link"></i></a><a href="#配置密码" class="headerlink" title="配置密码"></a>配置密码</h3>
+      <p>启动es后 执行<code>elasticsearch-setup-passwords interactive</code>进行密码设置</p>
+
+        <h3 id="访问测试"   >
+          <a href="#访问测试" class="heading-link"><i class="fas fa-link"></i></a><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip:8020</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装ik分词器"   >
+          <a href="#安装ik分词器" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装ik分词器" class="headerlink" title="安装ik分词器"></a>安装ik分词器</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.7.1/elasticsearch-analysis-ik-7.7.1.zip</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="测试ik"   >
+          <a href="#测试ik" class="heading-link"><i class="fas fa-link"></i></a><a href="#测试ik" class="headerlink" title="测试ik"></a>测试ik</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl --location --request POST &#x27;http://127.0.0.1:8020/_analyze/?pretty&#x27; \</span><br><span class="line">--header &#x27;Content-Type: application/json&#x27; \</span><br><span class="line">--data-raw &#x27;&#123;</span><br><span class="line">  &quot;analyzer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">  &quot;text&quot;: &quot;这是一个搜索引擎&quot;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装Kibana"   >
+          <a href="#安装Kibana" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装Kibana" class="headerlink" title="安装Kibana"></a>安装Kibana</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">chown -R estest /usr/kibana/</span><br><span class="line">chmod -R  777  /usr/kibana/</span><br><span class="line">vim /usr/kibana/config/kibana.yml</span><br><span class="line"></span><br><span class="line">elasticsearch.hosts: [&quot;http://localhost:8020&quot;]</span><br><span class="line">elasticsearch.username: &quot;elastic&quot;</span><br><span class="line">elasticsearch.password: &quot;elastic&quot;</span><br><span class="line">server.host: &quot;0.0.0.0&quot;</span><br><span class="line">server.port: 8019</span><br><span class="line">i18n.locale: &quot;zh-CN&quot;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="启动Kibana"   >
+          <a href="#启动Kibana" class="heading-link"><i class="fas fa-link"></i></a><a href="#启动Kibana" class="headerlink" title="启动Kibana"></a>启动Kibana</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su esuser</span><br><span class="line">./bin/kibana</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="访问测试-1"   >
+          <a href="#访问测试-1" class="heading-link"><i class="fas fa-link"></i></a><a href="#访问测试-1" class="headerlink" title="访问测试"></a>访问测试</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip:8019</span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h3 id="安装FileBate"   >
+          <a href="#安装FileBate" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装FileBate" class="headerlink" title="安装FileBate"></a>安装FileBate</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.7.1-linux-x86_64.tar.gz</span><br><span class="line">tar xzvf filebeat-7.7.1-linux-x86_64.tar.gz</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="配置"   >
+          <a href="#配置" class="heading-link"><i class="fas fa-link"></i></a><a href="#配置" class="headerlink" title="配置"></a>配置</h3>
+      <blockquote>
+<p>直接发送json日志到ES</p>
+</blockquote>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">vim filebeat.yml</span><br><span class="line"></span><br><span class="line">json.keys_under_root: true</span><br><span class="line">json.add_error_key: true</span><br><span class="line">json.overwrite_keys: true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filebeat.inputs:</span><br><span class="line">- type: log</span><br><span class="line">  enabled: true</span><br><span class="line">  paths:</span><br><span class="line">    - /data/soft/app/log/*.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">output.elasticsearch:</span><br><span class="line">  hosts: [&quot;localhost:8020&quot;]</span><br><span class="line">  index: &quot;app_log_%&#123;+YYYY-MM-dd&#125;&quot;</span><br><span class="line">  username: &quot;elastic&quot;</span><br><span class="line">  password: &quot;elastic&quot;</span><br><span class="line">  protocol: &quot;http&quot;</span><br><span class="line">setup.template.enabled: false</span><br><span class="line">setup.template.name: &quot;app&quot;</span><br><span class="line">setup.template.pattern: &quot;app-*&quot;</span><br><span class="line">setup.ilm.enabled: false #一定要配，否则不起作用</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h3 id="运行"   >
+          <a href="#运行" class="heading-link"><i class="fas fa-link"></i></a><a href="#运行" class="headerlink" title="运行"></a>运行</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./filebeat -c filebeat.yml -e  &amp;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="访问测试-2"   >
+          <a href="#访问测试-2" class="heading-link"><i class="fas fa-link"></i></a><a href="#访问测试-2" class="headerlink" title="访问测试"></a>访问测试</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://hw03.p2m.org.cn:8019/</span><br></pre></td></tr></table></div></figure></div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://hawawa.gitee.io">hao peng</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://hawawa.gitee.io/2022/05/08/Filebeat%E5%AE%9E%E7%8E%B0ELK%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/">https://hawawa.gitee.io/2022/05/08/Filebeat%E5%AE%9E%E7%8E%B0ELK%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/elk/">elk</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/05/08/spring-boot%E9%9B%86%E6%88%90prometheus-grafana/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">spring-boot集成prometheus+grafana</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/05/08/Java%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%B3%9B%E5%9E%8B/"><span class="paginator-prev__text">Java基础之泛型</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.</span> <span class="toc-text">
+          下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B"><span class="toc-number">2.</span> <span class="toc-text">
+          解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">
+          配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEElasticSearch"><span class="toc-number">4.</span> <span class="toc-text">
+          配置ElasticSearch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEES%E5%8F%82%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">
+          设置ES参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0es%E5%90%AF%E5%8A%A8%E7%94%A8%E6%88%B7"><span class="toc-number">6.</span> <span class="toc-text">
+          添加es启动用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E5%8F%82%E6%95%B0"><span class="toc-number">7.</span> <span class="toc-text">
+          修改系统参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8es"><span class="toc-number">8.</span> <span class="toc-text">
+          启动es</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="toc-number">9.</span> <span class="toc-text">
+          配置密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95"><span class="toc-number">10.</span> <span class="toc-text">
+          访问测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85ik%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">11.</span> <span class="toc-text">
+          安装ik分词器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95ik"><span class="toc-number">12.</span> <span class="toc-text">
+          测试ik</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Kibana"><span class="toc-number">13.</span> <span class="toc-text">
+          安装Kibana</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8Kibana"><span class="toc-number">14.</span> <span class="toc-text">
+          启动Kibana</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95-1"><span class="toc-number">15.</span> <span class="toc-text">
+          访问测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85FileBate"><span class="toc-number">16.</span> <span class="toc-text">
+          安装FileBate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">17.</span> <span class="toc-text">
+          配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-number">18.</span> <span class="toc-text">
+          运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%B5%8B%E8%AF%95-2"><span class="toc-number">19.</span> <span class="toc-text">
+          访问测试</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">路漫漫其修远兮，吾将上下而求索</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">59</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>hao peng</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>

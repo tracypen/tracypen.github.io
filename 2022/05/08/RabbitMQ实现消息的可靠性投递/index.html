@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favor16.ico?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favor32.ico?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="RabbitMQ实现消息投递可靠性        rabbitmq的消息可靠性投递提现在两个方面，分别是生产者端和消费者端的可靠性控制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ实现消息的可靠性投递">
+<meta property="og:url" content="https://hawawa.gitee.io/2022/05/08/RabbitMQ%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%8A%95%E9%80%92/index.html">
+<meta property="og:site_name" content="peng.hao">
+<meta property="og:description" content="RabbitMQ实现消息投递可靠性        rabbitmq的消息可靠性投递提现在两个方面，分别是生产者端和消费者端的可靠性控制">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/uPic/1240-20220508205944435.png">
+<meta property="article:published_time" content="2022-05-08T12:52:10.000Z">
+<meta property="article:modified_time" content="2022-05-19T08:22:43.560Z">
+<meta property="article:author" content="hao peng">
+<meta property="article:tag" content="RabbitMQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/uPic/1240-20220508205944435.png"><title>RabbitMQ实现消息的可靠性投递 | peng.hao</title><link ref="canonical" href="https://hawawa.gitee.io/2022/05/08/RabbitMQ%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%8A%95%E9%80%92/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">peng.hao</div><div class="header-banner-info__subtitle"></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">RabbitMQ实现消息的可靠性投递</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-05-08</span></span></div></header><div class="post-body">
+        <h3 id="RabbitMQ实现消息投递可靠性"   >
+          <a href="#RabbitMQ实现消息投递可靠性" class="heading-link"><i class="fas fa-link"></i></a><a href="#RabbitMQ实现消息投递可靠性" class="headerlink" title="RabbitMQ实现消息投递可靠性"></a>RabbitMQ实现消息投递可靠性</h3>
+      <blockquote>
+<p>rabbitmq的消息可靠性投递提现在两个方面，分别是生产者端和消费者端的可靠性控制</p>
+</blockquote>
+<span id="more"></span>
+
+
+        <h4 id="1-生产者端"   >
+          <a href="#1-生产者端" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-生产者端" class="headerlink" title="1.生产者端"></a>1.生产者端</h4>
+      <blockquote>
+<p>生产端可靠性一般通过confirm消息确认和Return消息机制</p>
+</blockquote>
+
+        <h5 id="1-1-confirm"   >
+          <a href="#1-1-confirm" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-1-confirm" class="headerlink" title="1.1  confirm"></a>1.1  confirm</h5>
+      <blockquote>
+<p> 当生产者发送消息后，消息到达broker后就会进行confim回调，在回到中根据投递标签（Tag）进行消息的唯一确定。根据ack结果分为两种</p>
+</blockquote>
+<ul>
+<li>true 标识消息正常投递，被broker接受</li>
+<li>false 消息为正常投递 （可能因为内存、磁盘等原因导致）</li>
+</ul>
+
+        <h5 id="1-2-Return"   >
+          <a href="#1-2-Return" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-2-Return" class="headerlink" title="1.2 Return"></a>1.2 Return</h5>
+      <blockquote>
+<p>当消息未找到exchange或routingkey不正确消息最终路由错误，这两种情况都会导致消息不可达，最终执行return回调  需要开启 <code>spring.rabbitmq.template.mandatory=true</code></p>
+</blockquote>
+
+        <h4 id="2-消费者端"   >
+          <a href="#2-消费者端" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-消费者端" class="headerlink" title="2.消费者端"></a>2.消费者端</h4>
+      <blockquote>
+<p>消费端的ack是控制消息是否从broker进行正常消费，可以进行三种确认操作</p>
+</blockquote>
+<ul>
+<li>ack</li>
+<li>nack</li>
+<li>reject</li>
+</ul>
+<p>其中<code>basicReject</code>、 <code>basicNack</code>的区别参考：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://blog.csdn.net/fly_leopard/article/details/102821776" >https://blog.csdn.net/fly_leopard/article/details/102821776</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><em>注意</em>：要设置 关闭自动ack模式 改为手动<code>MANUAL</code></p>
+
+        <h3 id="一、生产端可靠性解决方案"   >
+          <a href="#一、生产端可靠性解决方案" class="heading-link"><i class="fas fa-link"></i></a><a href="#一、生产端可靠性解决方案" class="headerlink" title="一、生产端可靠性解决方案"></a>一、生产端可靠性解决方案</h3>
+      <blockquote>
+<p>消息落库，对消息状态进行打标</p>
+</blockquote>
+<blockquote>
+<p>实现本地消息表，对消息的状态进行标记，更改，定期抓取非正常状态的消息进行重新投递或补偿</p>
+</blockquote>
+<p><img src="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/uPic/1240-20220508205944435.png"></p>
+<ul>
+<li>1.业务数据和消息数据同时写入数据库，此时消息状态为0标识投递中</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ORDER_SENDING</span> <span class="operator">=</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ORDER_SEND_SUCCESS</span> <span class="operator">=</span> <span class="string">&quot;1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ORDER_SEND_FAILURE</span> <span class="operator">=</span> <span class="string">&quot;2&quot;</span>;</span><br></pre></td></tr></table></div></figure>
+
+
+
+<ul>
+<li>2.上一步确保成功后，生产端发送消息到broker</li>
+<li>3.broker通过confirm机制，回调confirm方法</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">ConfirmCallback</span> <span class="variable">confirmCallback</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RabbitTemplate</span>.ConfirmCallback() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">confirm</span><span class="params">(CorrelationData correlationData, <span class="type">boolean</span> ack, String cause)</span> &#123;</span><br><span class="line">		System.err.println(<span class="string">&quot;correlationData: &quot;</span> + correlationData);</span><br><span class="line">		<span class="type">String</span> <span class="variable">messageId</span> <span class="operator">=</span> correlationData.getId();</span><br><span class="line">		<span class="keyword">if</span>(ack)&#123;</span><br><span class="line">			<span class="comment">//如果confirm返回成功 则进行更新</span></span><br><span class="line">			brokerMessageLogMapper.changeBrokerMessageLogStatus(messageId, Constants.ORDER_SEND_SUCCESS, <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">//失败则进行具体的后续操作:重试 或者补偿等手段</span></span><br><span class="line">			System.err.println(<span class="string">&quot;异常处理...&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+<p>其中<code>brokerMessageLogMapper.changeBrokerMessageLogStatus</code>就是更改消息状态为投递成功</p>
+<figure class="highlight xml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;changeBrokerMessageLogStatus&quot;</span> &gt;</span></span><br><span class="line">  update broker_message_log bml</span><br><span class="line">  set bml.status = #&#123;status,jdbcType=VARCHAR&#125;,</span><br><span class="line">    	bml.update_time = #&#123;updateTime, jdbcType=TIMESTAMP&#125;</span><br><span class="line">  where bml.message_id = #&#123;messageId,jdbcType=VARCHAR&#125;  </span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></div></figure>
+
+
+
+<ul>
+<li>4.上一步如果成功，更改消息状态为1 代表消息投递成功，如果失败可以进行重试</li>
+<li>5.通过定时任务抓取消息状态为0的消息，并且发送时间至少为5分钟以前的（防止新消息发送中导致误判）消息，进行重新发送</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Scheduled(initialDelay = 3000, fixedDelay = 10000)</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">reSend</span><span class="params">()</span>&#123;</span><br><span class="line">		System.err.println(<span class="string">&quot;---------------定时任务开始---------------&quot;</span>);</span><br><span class="line">		<span class="comment">//pull status = 0 and timeout message </span></span><br><span class="line">		List&lt;BrokerMessageLog&gt; list = brokerMessageLogMapper.query4StatusAndTimeoutMessage();</span><br><span class="line">		list.forEach(messageLog -&gt; &#123;</span><br><span class="line">			<span class="keyword">if</span>(messageLog.getTryCount() &gt;= <span class="number">3</span>)&#123;</span><br><span class="line">				<span class="comment">//update fail message </span></span><br><span class="line">				brokerMessageLogMapper.changeBrokerMessageLogStatus(messageLog.getMessageId(), Constants.ORDER_SEND_FAILURE, <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">// resend </span></span><br><span class="line">				brokerMessageLogMapper.update4ReSend(messageLog.getMessageId(),  <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">				<span class="type">Order</span> <span class="variable">reSendOrder</span> <span class="operator">=</span> FastJsonConvertUtil.convertJSONToObject(messageLog.getMessage(), Order.class);</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					rabbitOrderSender.sendOrder(reSendOrder);</span><br><span class="line">				&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">					System.err.println(<span class="string">&quot;-----------异常处理-----------&quot;</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;			</span><br><span class="line">		&#125;);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+
+<ul>
+<li><ol start="6">
+<li>每次重新发送的时候，更改消息表中的重试次数+1</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight xml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brokerMessageLogMapper.update4ReSend()</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;update4ReSend&quot;</span> &gt;</span></span><br><span class="line">    update broker_message_log bml</span><br><span class="line">    set bml.try_count = bml.try_count + 1,</span><br><span class="line">      bml.update_time = #&#123;updateTime, jdbcType=TIMESTAMP&#125;</span><br><span class="line">    where bml.message_id = #&#123;messageId,jdbcType=VARCHAR&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><ol start="7">
+<li>判断重试次数大于上限时比如3次 更改消息状态为2 标识消息投递失败（这个一般就是机器或程序不可抗因素，需要人工补偿了）</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brokerMessageLogMapper.changeBrokerMessageLogStatus()方法就是将消息状态改为投递失败，最终进行补偿</span><br></pre></td></tr></table></div></figure>
+
+<p>  另外可以利用return机制进行不可达消息的追踪，具体规则根据业务而定</p>
+<p>二、消费端可靠性解决方案</p>
+<ul>
+<li>由于业务异常，可以进行日志记录，然后进行补偿</li>
+<li>由于服务器宕机等严重问题，那么就需要手动ack保证消费成功（一般都是手动ack）</li>
+<li>可以根据业务设置消息是否重回队列</li>
+</ul>
+<figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RabbitHandler</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onOrderMessage</span><span class="params">(<span class="meta">@Payload</span> com.bfxy.springboot.entity.Order order, Channel channel, </span></span><br><span class="line"><span class="params">		<span class="meta">@Headers</span> Map&lt;String, Object&gt; headers)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">	<span class="type">Long</span> <span class="variable">deliveryTag</span> <span class="operator">=</span> (Long)headers.get(AmqpHeaders.DELIVERY_TAG);</span><br><span class="line">	<span class="comment">//手工ACK</span></span><br><span class="line">	channel.basicAck(deliveryTag, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://hawawa.gitee.io">hao peng</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://hawawa.gitee.io/2022/05/08/RabbitMQ%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%8A%95%E9%80%92/">https://hawawa.gitee.io/2022/05/08/RabbitMQ%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%8A%95%E9%80%92/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/RabbitMQ/">RabbitMQ</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/05/08/RabbitMQ%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">RabbitMQ实现延时消息队列</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/04/05/ElasticSearch7-X%E5%AE%9E%E7%8E%B0%E9%AB%98%E4%BA%AE%E6%90%9C%E7%B4%A2/"><span class="paginator-prev__text">ElasticSearch7.X实现高亮搜索</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-number">1.</span> <span class="toc-text">
+          RabbitMQ实现消息投递可靠性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%94%9F%E4%BA%A7%E8%80%85%E7%AB%AF"><span class="toc-number">1.1.</span> <span class="toc-text">
+          1.生产者端</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-confirm"><span class="toc-number">1.1.1.</span> <span class="toc-text">
+          1.1  confirm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-Return"><span class="toc-number">1.1.2.</span> <span class="toc-text">
+          1.2 Return</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%B6%88%E8%B4%B9%E8%80%85%E7%AB%AF"><span class="toc-number">1.2.</span> <span class="toc-text">
+          2.消费者端</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%94%9F%E4%BA%A7%E7%AB%AF%E5%8F%AF%E9%9D%A0%E6%80%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">
+          一、生产端可靠性解决方案</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">路漫漫其修远兮，吾将上下而求索</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">59</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>hao peng</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>

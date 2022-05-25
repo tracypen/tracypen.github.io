@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favor16.ico?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favor32.ico?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="设置主机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kubeadm安装kubernetes">
+<meta property="og:url" content="https://hawawa.gitee.io/2022/03/29/kubeadm%E5%AE%89%E8%A3%85kubernetes/index.html">
+<meta property="og:site_name" content="peng.hao">
+<meta property="og:description" content="设置主机">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-29T13:42:36.000Z">
+<meta property="article:modified_time" content="2022-05-19T08:22:43.574Z">
+<meta property="article:author" content="hao peng">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary"><title>kubeadm安装kubernetes | peng.hao</title><link ref="canonical" href="https://hawawa.gitee.io/2022/03/29/kubeadm%E5%AE%89%E8%A3%85kubernetes/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">peng.hao</div><div class="header-banner-info__subtitle"></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">kubeadm安装kubernetes</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-03-29</span></span></div></header><div class="post-body">
+        <h3 id="设置主机"   >
+          <a href="#设置主机" class="heading-link"><i class="fas fa-link"></i></a><a href="#设置主机" class="headerlink" title="设置主机"></a>设置主机</h3>
+      <span id="more"></span>
+
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 查看主机名</span><br><span class="line">$ hostname</span><br><span class="line"># 修改主机名</span><br><span class="line">$ hostnamectl set-hostname &lt;your_hostname&gt;</span><br><span class="line"># 配置host，使所有节点之间可以通过hostname互相访问</span><br><span class="line">$ vi /etc/hosts</span><br><span class="line"># &lt;node-ip&gt; &lt;node-hostname&gt;</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="免密登陆"   >
+          <a href="#免密登陆" class="heading-link"><i class="fas fa-link"></i></a><a href="#免密登陆" class="headerlink" title="免密登陆"></a>免密登陆</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br><span class="line">ssh-copy-id root@192.168.2.202</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装依赖包（-）"   >
+          <a href="#安装依赖包（-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装依赖包（-）" class="headerlink" title="安装依赖包（*）"></a>安装依赖包（*）</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 更新yum</span><br><span class="line">$ yum update</span><br><span class="line"># 安装依赖包</span><br><span class="line">$ yum install -y conntrack ipvsadm ipset jq sysstat curl iptables libseccomp</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="关闭防火墙、selinux、swap，重置iptables（-）"   >
+          <a href="#关闭防火墙、selinux、swap，重置iptables（-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#关闭防火墙、selinux、swap，重置iptables（-）" class="headerlink" title="关闭防火墙、selinux、swap，重置iptables（*）"></a>关闭防火墙、selinux、swap，重置iptables（*）</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 关闭防火墙</span><br><span class="line">$ systemctl stop firewalld &amp;&amp; systemctl disable firewalld</span><br><span class="line"># 重置iptables</span><br><span class="line">$ iptables -F &amp;&amp; iptables -X &amp;&amp; iptables -F -t nat &amp;&amp; iptables -X -t nat &amp;&amp; iptables -P FORWARD ACCEPT</span><br><span class="line"># 关闭swap</span><br><span class="line">$ swapoff -a</span><br><span class="line">$ sed -i &#x27;/swap/s/^\(.*\)$/#\1/g&#x27; /etc/fstab</span><br><span class="line"># 关闭selinux</span><br><span class="line">$ setenforce 0</span><br><span class="line"># 关闭dnsmasq(否则可能导致docker容器无法解析域名)</span><br><span class="line">$ service dnsmasq stop &amp;&amp; systemctl disable dnsmasq</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="系统参数设置（-）"   >
+          <a href="#系统参数设置（-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#系统参数设置（-）" class="headerlink" title="系统参数设置（*）"></a>系统参数设置（*）</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 制作配置文件</span><br><span class="line">$ cat &gt; /etc/sysctl.d/kubernetes.conf &lt;&lt;EOF</span><br><span class="line">net.bridge.bridge-nf-call-iptables=1</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables=1</span><br><span class="line">net.ipv4.ip_forward=1</span><br><span class="line">vm.swappiness=0</span><br><span class="line">vm.overcommit_memory=1</span><br><span class="line">vm.panic_on_oom=0</span><br><span class="line">fs.inotify.max_user_watches=89100</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">modprobe br_netfilter</span><br><span class="line"># 生效文件</span><br><span class="line">$ sysctl -p /etc/sysctl.d/kubernetes.conf</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装dcoker-ce（-）"   >
+          <a href="#安装dcoker-ce（-）" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装dcoker-ce（-）" class="headerlink" title="安装dcoker-ce（*）"></a>安装dcoker-ce（*）</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">EOF</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装kubelet-kubeadm-kubectl"   >
+          <a href="#安装kubelet-kubeadm-kubectl" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装kubelet-kubeadm-kubectl" class="headerlink" title="安装kubelet kubeadm kubectl(*)"></a>安装<code>kubelet kubeadm kubectl</code>(*)</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install kubelet-1.17.17-0 kubeadm-1.17.17-0 kubectl-1.17.17-0 -y</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="初始化-master"   >
+          <a href="#初始化-master" class="heading-link"><i class="fas fa-link"></i></a><a href="#初始化-master" class="headerlink" title="初始化(master)"></a>初始化(master)</h3>
+      <p>kubeadm init –image-repository registry.aliyuncs.com/google_containers –pod-network-cidr=10.244.0.0/16 –service-cidr=10.96.0.0/12</p>
+<p>需要保存控制台打印的信息</p>
+<p>按照提示操作</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $HOME/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装finnal插件"   >
+          <a href="#安装finnal插件" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装finnal插件" class="headerlink" title="安装finnal插件"></a>安装finnal插件</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="加入集群-node"   >
+          <a href="#加入集群-node" class="heading-link"><i class="fas fa-link"></i></a><a href="#加入集群-node" class="headerlink" title="加入集群(node)"></a>加入集群(node)</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubeadm join 10.1.20.80:6443 --token hos4yx.fi6m9wq589389c8d \</span><br><span class="line">--discovery-token-ca-cert-hash sha256:832df73a20a3ebd51316bbc4c3b38045f7ea369c916e95b0a2c154ba3af4647a</span><br></pre></td></tr></table></div></figure>
+
+<blockquote>
+<p>如果忘记改命令可以通过如下方式获取</p>
+</blockquote>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></div></figure>
+
+<p>可能出现报错：<code>The connection to the server localhost:8080 was refused </code></p>
+<p>原因：kubernetes master没有与本机绑定，集群初始化的时候没有绑定，此时设置</p>
+<p>在本机的环境变量即可解决问题</p>
+<p>设置环境变量</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;export KUBECONFIG=/etc/kubernetes/admin.conf&quot; &gt;&gt; /etc/profile</span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Kubernetes的node，NotReady 如何查问题:</li>
+</ul>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -f -u kubelet</span><br></pre></td></tr></table></div></figure>
+
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods --all-namespaces</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="安装dashboard"   >
+          <a href="#安装dashboard" class="heading-link"><i class="fas fa-link"></i></a><a href="#安装dashboard" class="headerlink" title="安装dashboard"></a>安装dashboard</h3>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml</span><br></pre></td></tr></table></div></figure>
+
+<p>由于网络问题可能这里会失败，可以手动打开<code>recommended.yaml</code>复制到本地</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f recommended.yaml</span><br></pre></td></tr></table></div></figure>
+
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get svc -n kubernetes-dashboard</span><br></pre></td></tr></table></div></figure>
+
+<p>这里是<code>cluster-ip</code>暴露的svc，只能内部访问，需要改成<code>NodePort</code></p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch svc kubernetes-dashboard -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;type&quot;:&quot;NodePort&quot;&#125;&#125;&#x27; -n kubernetes-dashboard</span><br></pre></td></tr></table></div></figure>
+
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# kubectl get svc -n kubernetes-dashboard</span><br><span class="line">NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE</span><br><span class="line">dashboard-metrics-scraper   ClusterIP   10.103.11.69    &lt;none&gt;        8000/TCP   10s</span><br><span class="line">kubernetes-dashboard        ClusterIP   10.96.219.204   &lt;none&gt;        443/TCP    10s</span><br><span class="line">[root@master ~]# kubectl patch svc kubernetes-dashboard -p &#x27;&#123;&quot;spec&quot;:&#123;&quot;type&quot;:&quot;NodePort&quot;&#125;&#125;&#x27; -n kubernetes-dashboard</span><br><span class="line">service/kubernetes-dashboard patched</span><br><span class="line">[root@master ~]# kubectl get svc -n kubernetes-dashboard</span><br><span class="line">NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)         AGE</span><br><span class="line">dashboard-metrics-scraper   ClusterIP   10.103.11.69    &lt;none&gt;        8000/TCP        38s</span><br><span class="line">kubernetes-dashboard        NodePort    10.96.219.204   &lt;none&gt;        443:32420/TCP   38s</span><br></pre></td></tr></table></div></figure>
+
+<p>浏览器访问： <code>https://10.1.20.80:32420/</code></p>
+<ul>
+<li><p>配置token</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# cat admin-role.yaml </span><br><span class="line">kind: ClusterRoleBinding</span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">metadata:</span><br><span class="line">name: admin</span><br><span class="line">annotations:</span><br><span class="line">  rbac.authorization.kubernetes.io/autoupdate: &quot;true&quot;</span><br><span class="line">roleRef:</span><br><span class="line">kind: ClusterRole</span><br><span class="line">name: cluster-admin</span><br><span class="line">apiGroup: rbac.authorization.k8s.io</span><br><span class="line">subjects:</span><br></pre></td></tr></table></div></figure></li>
+<li><p>kind: ServiceAccount<br>name: admin<br>namespace: kube-system</p>
+</li>
+</ul>
+<hr>
+<p>apiVersion: v1<br>kind: ServiceAccount<br>metadata:<br>  name: admin<br>  namespace: kube-system<br>  labels:<br>    kubernetes.io/cluster-service: “true”<br>    addonmanager.kubernetes.io/mode: Reconcile</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 创建admin-role</span><br></pre></td></tr></table></div></figure>
+
+<p>kubectl create -f admin-role.yaml</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 找到secret(注意这里secret名可能不一样，需要替换)</span><br></pre></td></tr></table></div></figure>
+
+<p>kubectl -n kube-system get secret|grep admin-token</p>
+<p>kubectl -n kube-system get secret admin-token-jvjjl -o jsonpath={.data.token}|base64 -d</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></div></figure>
+
+<p>[root@master ~]# kubectl -n kube-system get secret|grep admin-token<br>admin-token-jvjjl                                kubernetes.io/service-account-token   3      9s<br>[root@master ~]# kubectl -n kube-system get secret admin-token-jvjjl -o jsonpath={.data.token}|base64 -d<br>eyJhbGciOiJSUzI1NiIsImtpZCI6IndLSzJiRGxQcjg1Nzl6UG9GSTF3T0pSOTRfS2FiZUw5V0lwTk9JS0owOXcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi10b2tlbi1qdmpqbCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjIwNTdiYzZmLWRiMDQtNGRiMS1iZjg0LWE5MTkyZmRhMzVmNiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTphZG1pbiJ9.OgY0h3grdJlh7lQh4uEq1-8aIDW7AxJ7lmFjszlpEA41WN7OeTeedW-ORAUvjCv0CrrmqyIt4LL0k_SaBBzBW3Gb0FKfwDD09nhyBAAhWghE4ZAAPQHxAxYYPunlKfNO-PArs8a8Ow13YllnxSjgjspLDCEAJy4lpAyv-AWg-sc7ddEMHoV0izUkJQimmVfVAv_kgNmp7dc7xL48bg4kgGISp_DQAqFdWFWbevYIfSoybiut3gTaJvm-4S4REY3zR7iW5mwTzp-EwvEXNaPAHZK3Gs4xc2YChQ0R2xmKtigKhCvJd7bc2QCqO9neig2LP9TbdDQrdePCOlJ8n3KvRg</p>
+<figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- 使用token登录</span><br><span class="line"></span><br><span class="line">![](kubeadm安装kubernetes集群/8387919-7a99cb05810b6de5.png)</span><br><span class="line"></span><br><span class="line">### 安装K9S</span><br><span class="line"></span><br><span class="line">- 参考[https://github.com/derailed/k9s](https://github.com/derailed/k9s)</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">### 参考</span><br><span class="line"></span><br><span class="line">- https://juejin.cn/post/6986807406403518500</span><br></pre></td></tr></table></div></figure></div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://hawawa.gitee.io">hao peng</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://hawawa.gitee.io/2022/03/29/kubeadm%E5%AE%89%E8%A3%85kubernetes/">https://hawawa.gitee.io/2022/03/29/kubeadm%E5%AE%89%E8%A3%85kubernetes/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/kubernetes/">kubernetes</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/03/29/ThreadLocal%E7%94%A8%E6%B3%95/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">ThreadLocal用法</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2021/05/08/Jsoup%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%88%AC%E8%99%AB/"><span class="paginator-prev__text">Jsoup实现简单爬虫</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">
+          设置主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86"><span class="toc-number">2.</span> <span class="toc-text">
+          免密登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%8C%85%EF%BC%88-%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">
+          安装依赖包（*）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99%E3%80%81selinux%E3%80%81swap%EF%BC%8C%E9%87%8D%E7%BD%AEiptables%EF%BC%88-%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">
+          关闭防火墙、selinux、swap，重置iptables（*）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%EF%BC%88-%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">
+          系统参数设置（*）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85dcoker-ce%EF%BC%88-%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">
+          安装dcoker-ce（*）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85kubelet-kubeadm-kubectl"><span class="toc-number">7.</span> <span class="toc-text">
+          安装kubelet kubeadm kubectl(*)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-master"><span class="toc-number">8.</span> <span class="toc-text">
+          初始化(master)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85finnal%E6%8F%92%E4%BB%B6"><span class="toc-number">9.</span> <span class="toc-text">
+          安装finnal插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E9%9B%86%E7%BE%A4-node"><span class="toc-number">10.</span> <span class="toc-text">
+          加入集群(node)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85dashboard"><span class="toc-number">11.</span> <span class="toc-text">
+          安装dashboard</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">路漫漫其修远兮，吾将上下而求索</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">59</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>hao peng</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>

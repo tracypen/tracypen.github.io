@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favor16.ico?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favor32.ico?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="Kubernetes CLI To Manage Your Clusters In Style!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用K9S工具管理K8S集群资源">
+<meta property="og:url" content="https://hawawa.gitee.io/2022/05/08/%E4%BD%BF%E7%94%A8K9S%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86K8S%E9%9B%86%E7%BE%A4%E8%B5%84%E6%BA%90/index.html">
+<meta property="og:site_name" content="peng.hao">
+<meta property="og:description" content="Kubernetes CLI To Manage Your Clusters In Style!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/markdown/image-20220225184052596.png">
+<meta property="og:image" content="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/markdown/image-20220225185149885.png">
+<meta property="og:image" content="https://k9scli.io/assets/sections/examples.png">
+<meta property="article:published_time" content="2022-05-08T13:26:38.000Z">
+<meta property="article:modified_time" content="2022-05-19T08:22:43.578Z">
+<meta property="article:author" content="hao peng">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/markdown/image-20220225184052596.png"><title>使用K9S工具管理K8S集群资源 | peng.hao</title><link ref="canonical" href="https://hawawa.gitee.io/2022/05/08/%E4%BD%BF%E7%94%A8K9S%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86K8S%E9%9B%86%E7%BE%A4%E8%B5%84%E6%BA%90/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">peng.hao</div><div class="header-banner-info__subtitle"></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">使用K9S工具管理K8S集群资源</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-05-08</span></span></div></header><div class="post-body"><blockquote>
+<p>K9s是一个基于终端的UI，可以与Kubernetes集群进行交互。K9s的目的是简化导航，观察和管理已部署应用程序的过程。K9s持续监视Kubernetes的变化，并提供后续命令来与所观察到的资源进行交互。</p>
+</blockquote>
+<!-- more -->
+
+<p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://k9scli.io/" >官方文档 https://k9scli.io</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a><img src="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/markdown/image-20220225184052596.png" alt="image-20220225184052596"></h3>
+        <h2 id="特征"   >
+          <a href="#特征" class="heading-link"><i class="fas fa-link"></i></a><a href="#特征" class="headerlink" title="特征"></a>特征</h2>
+      <ul>
+<li>跟踪Kubernetes集群中运行的资源的实时活动。</li>
+<li>处理Kubernetes标准资源和自定义资源定义。</li>
+<li>跟踪与Pod、容器和节点等资源相关的实时指标。</li>
+<li>提供标准的集群管理命令，例如log，scaling，port-forward，restart…</li>
+<li>通过别名和热键自定义命令快捷方式。</li>
+<li>支持扩展K9s插件以创建自己的集群命令。</li>
+<li>强大的过滤模式：允许用户向下钻并查看与工作负载相关的资源。</li>
+<li>误差放大：直接深入了解群集资源的问题。</li>
+<li>外观可定制</li>
+<li>通过K9s皮肤定义自己的终端外观。</li>
+<li>按资源自定义/安排要显示的列。</li>
+<li>提供查看最小或完整资源定义的切换</li>
+<li>通过Pulses和XRay视图提供群集资源的概述。</li>
+<li>RBAC</li>
+<li>支持查看RBAC规则，例如群集/角色及其关联的绑定。</li>
+<li>反向查找断言用户/组或ServiceAccount可以在集群上做什么。</li>
+<li>可以直接从K9s内置的基准测试对HTTP - services/pods进行基准测试，以查看应用程序的运行情况，并相应地调整资源请求/限制。</li>
+<li>K9s提供方便地遍历Kubernetes资源及其相关资源。</li>
+</ul>
+
+        <h2 id="快捷键操作"   >
+          <a href="#快捷键操作" class="heading-link"><i class="fas fa-link"></i></a><a href="#快捷键操作" class="headerlink" title="快捷键操作"></a>快捷键操作</h2>
+      <p>K9s uses aliases to navigate most K8s resources.</p>
+<div class="table-container"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>快捷键</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Show active keyboard mnemonics and help</td>
+<td><code>?</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Show all available resource alias</td>
+<td><code>ctrl-a</code></td>
+<td></td>
+</tr>
+<tr>
+<td>To bail out of K9s</td>
+<td><code>:q</code>, <code>ctrl-c</code></td>
+<td></td>
+</tr>
+<tr>
+<td>View a Kubernetes resource using singular/plural or short-name</td>
+<td><code>:</code>po⏎</td>
+<td>accepts singular, plural, short-name or alias ie pod or pods</td>
+</tr>
+<tr>
+<td>View a Kubernetes resource in a given namespace</td>
+<td><code>:</code>alias namespace⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>Filter out a resource view given a filter</td>
+<td><code>/</code>filter⏎</td>
+<td>Regex2 supported ie `fred</td>
+</tr>
+<tr>
+<td>Inverse regex filter</td>
+<td><code>/</code>! filter⏎</td>
+<td>Keep everything that <em>doesn’t</em> match.</td>
+</tr>
+<tr>
+<td>Filter resource view by labels</td>
+<td><code>/</code>-l label-selector⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>Fuzzy find a resource given a filter</td>
+<td><code>/</code>-f filter⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>Bails out of view/command/filter mode</td>
+<td><code>&lt;esc&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Key mapping to describe, view, edit, view logs,…</td>
+<td><code>d</code>,<code>v</code>, <code>e</code>, <code>l</code>,…</td>
+<td></td>
+</tr>
+<tr>
+<td>To view and switch to another Kubernetes context</td>
+<td><code>:</code>ctx⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>To view and switch to another Kubernetes context</td>
+<td><code>:</code>ctx context-name⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>To view and switch to another Kubernetes namespace</td>
+<td><code>:</code>ns⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>To view all saved resources</td>
+<td><code>:</code>screendump or sd⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>To delete a resource (TAB and ENTER to confirm)</td>
+<td><code>ctrl-d</code></td>
+<td></td>
+</tr>
+<tr>
+<td>To kill a resource (no confirmation dialog!)</td>
+<td><code>ctrl-k</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Launch pulses view</td>
+<td><code>:</code>pulses or pu⏎</td>
+<td></td>
+</tr>
+<tr>
+<td>Launch XRay view</td>
+<td><code>:</code>xray RESOURCE [NAMESPACE]⏎</td>
+<td>RESOURCE can be one of po, svc, dp, rs, sts, ds, NAMESPACE is optional</td>
+</tr>
+<tr>
+<td>Launch Popeye view</td>
+<td><code>:</code>popeye or pop⏎</td>
+<td>See <a href="#popeye">popeye</a></td>
+</tr>
+</tbody></table></div>
+<hr>
+
+        <h3 id="实践"   >
+          <a href="#实践" class="heading-link"><i class="fas fa-link"></i></a><a href="#实践" class="headerlink" title="实践"></a>实践</h3>
+      <ul>
+<li>切换集群</li>
+<li>查看别名</li>
+<li>切换资源视图</li>
+<li>扩缩容</li>
+<li>杀死（强制）pod</li>
+<li>查看日志</li>
+<li>实时编辑yaml</li>
+<li>describe</li>
+</ul>
+
+        <h3 id="彩蛋"   >
+          <a href="#彩蛋" class="heading-link"><i class="fas fa-link"></i></a><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h3>
+      <p>自定义主题</p>
+<p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://k9scli.io/topics/skins/" >https://k9scli.io/topics/skins/</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><img src="https://hp-blog-img.oss-cn-beijing.aliyuncs.com/markdown/image-20220225185149885.png" alt="image-20220225185149885"></p>
+
+        <h2 id="Skin-Example"   >
+          <a href="#Skin-Example" class="heading-link"><i class="fas fa-link"></i></a><a href="#Skin-Example" class="headerlink" title=" Skin Example"></a><img src="https://k9scli.io/assets/sections/examples.png" alt="img"> Skin Example</h2>
+      <figure class="highlight plaintext"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"># $XDG_CONFIG_HOME/k9s/in_the_navy_skin.yml</span><br><span class="line">k9s:</span><br><span class="line">  # General K9s styles</span><br><span class="line">  body:</span><br><span class="line">    fgColor: dodgerblue</span><br><span class="line">    bgColor: &#x27;#ffffff&#x27;</span><br><span class="line">    logoColor: &#x27;#0000ff&#x27;</span><br><span class="line"></span><br><span class="line">  # ClusterInfoView styles</span><br><span class="line">  info:</span><br><span class="line">    fgColor: lightskyblue</span><br><span class="line">    sectionColor: steelblue</span><br><span class="line"></span><br><span class="line">  # Frame styles</span><br><span class="line">  frame:</span><br><span class="line">    # Borders styles</span><br><span class="line">    border:</span><br><span class="line">      fgColor: dodgerblue</span><br><span class="line">      focusColor: aliceblue</span><br><span class="line"></span><br><span class="line">    # MenuView attributes and styles</span><br><span class="line">    menu:</span><br><span class="line">      fgColor: darkblue</span><br><span class="line">      keyColor: cornflowerblue</span><br><span class="line">      # Used for favorite namespaces</span><br><span class="line">      numKeyColor: cadetblue</span><br><span class="line"></span><br><span class="line">    # CrumbView attributes for history navigation.</span><br><span class="line">    crumbs:</span><br><span class="line">      fgColor: white</span><br><span class="line">      bgColor: steelblue</span><br><span class="line">      activeColor: skyblue</span><br><span class="line"></span><br><span class="line">    # Resource status and update styles</span><br><span class="line">    status:</span><br><span class="line">      newColor: &#x27;#00ff00&#x27;</span><br><span class="line">      modifyColor: powderblue</span><br><span class="line">      addColor: lightskyblue</span><br><span class="line">      errorColor: indianred</span><br><span class="line">      highlightcolor: royalblue</span><br><span class="line">      killColor: slategray</span><br><span class="line">      completedColor: gray</span><br><span class="line"></span><br><span class="line">    # Border title styles.</span><br><span class="line">    title:</span><br><span class="line">      fgColor: aqua</span><br><span class="line">      bgColor: white</span><br><span class="line">      highlightColor: skyblue</span><br><span class="line">      counterColor: slateblue</span><br><span class="line">      filterColor: slategray</span><br><span class="line">  # Specific views styles</span><br><span class="line">  views:</span><br><span class="line">    # TableView attributes.</span><br><span class="line">    table:</span><br><span class="line">      fgColor: blue</span><br><span class="line">      bgColor: darkblue</span><br><span class="line">      cursorColor: aqua</span><br><span class="line">      # Header row styles.</span><br><span class="line">      header:</span><br><span class="line">        fgColor: white</span><br><span class="line">        bgColor: darkblue</span><br><span class="line">        sorterColor: orange</span><br><span class="line"></span><br><span class="line">    # YAML info styles.</span><br><span class="line">    yaml:</span><br><span class="line">      keyColor: steelblue</span><br><span class="line">      colonColor: blue</span><br><span class="line">      valueColor: royalblue</span><br><span class="line"></span><br><span class="line">    # Logs styles.</span><br><span class="line">    logs:</span><br><span class="line">      fgColor: white</span><br><span class="line">      bgColor: black</span><br></pre></td></tr></table></div></figure>
+
+
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://hawawa.gitee.io">hao peng</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://hawawa.gitee.io/2022/05/08/%E4%BD%BF%E7%94%A8K9S%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86K8S%E9%9B%86%E7%BE%A4%E8%B5%84%E6%BA%90/">https://hawawa.gitee.io/2022/05/08/%E4%BD%BF%E7%94%A8K9S%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86K8S%E9%9B%86%E7%BE%A4%E8%B5%84%E6%BA%90/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/%E5%B7%A5%E5%85%B7/">工具</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/kubernetes/">kubernetes</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/05/08/%E8%AE%A4%E8%AF%86%E4%BA%91%E5%8E%9F%E7%94%9F/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">认识云原生</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/05/08/%E8%B4%A3%E4%BB%BB%E9%93%BE%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><span class="paginator-prev__text">责任链设计模式</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81"><span class="toc-number"></span> <span class="toc-text">
+          特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%93%8D%E4%BD%9C"><span class="toc-number"></span> <span class="toc-text">
+          快捷键操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.</span> <span class="toc-text">
+          实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%A9%E8%9B%8B"><span class="toc-number">2.</span> <span class="toc-text">
+          彩蛋</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Skin-Example"><span class="toc-number"></span> <span class="toc-text">
+           Skin Example</span></a></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">路漫漫其修远兮，吾将上下而求索</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">59</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>hao peng</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>

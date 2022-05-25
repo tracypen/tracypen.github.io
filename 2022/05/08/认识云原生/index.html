@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favor16.ico?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favor32.ico?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="云原生体系结构和技术是一种方法，用于设计、构造和操作在云中构建并充分利用云计算模型的工作负载。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识云原生">
+<meta property="og:url" content="https://hawawa.gitee.io/2022/05/08/%E8%AE%A4%E8%AF%86%E4%BA%91%E5%8E%9F%E7%94%9F/index.html">
+<meta property="og:site_name" content="peng.hao">
+<meta property="og:description" content="云原生体系结构和技术是一种方法，用于设计、构造和操作在云中构建并充分利用云计算模型的工作负载。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-08T13:32:47.000Z">
+<meta property="article:modified_time" content="2022-05-19T08:22:43.584Z">
+<meta property="article:author" content="hao peng">
+<meta property="article:tag" content="云原生">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary"><title>认识云原生 | peng.hao</title><link ref="canonical" href="https://hawawa.gitee.io/2022/05/08/%E8%AE%A4%E8%AF%86%E4%BA%91%E5%8E%9F%E7%94%9F/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">peng.hao</div><div class="header-banner-info__subtitle"></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><div class="sticky-top" data-popover="置顶文章" data-popover-pos="up"><span class="sticky-top__icon"><i class="fas fa-thumbtack"></i></span></div><h1 class="post-title">认识云原生</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-05-08</span></span></div></header><div class="post-body"><blockquote>
+<p>云原生体系结构和技术是一种方法，用于设计、构造和操作在云中构建并充分利用云计算模型的工作负载。</p>
+</blockquote>
+
+        <h3 id="云原生的定义"   >
+          <a href="#云原生的定义" class="heading-link"><i class="fas fa-link"></i></a><a href="#云原生的定义" class="headerlink" title="云原生的定义"></a>云原生的定义</h3>
+      
+        <h4 id="Pivotal-最初的定义"   >
+          <a href="#Pivotal-最初的定义" class="heading-link"><i class="fas fa-link"></i></a><a href="#Pivotal-最初的定义" class="headerlink" title="Pivotal 最初的定义"></a>Pivotal 最初的定义</h4>
+      <p>早在 2015 年 <code>Pivotal</code> 公司的 <code>Matt Stine</code> 写了一本叫做 <span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://jimmysong.io/migrating-to-cloud-native-application-architectures/" >迁移到云原生应用架构</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span> 的小册子，其中探讨了云原生应用架构的几个主要特征：</p>
+<ul>
+<li>符合 12 因素应用</li>
+<li>面向微服务架构<!-- more --></li>
+<li>自服务敏捷架构</li>
+<li>基于 API 的协作</li>
+<li>抗脆弱性</li>
+</ul>
+
+        <h4 id="CNCF-最初的定义"   >
+          <a href="#CNCF-最初的定义" class="heading-link"><i class="fas fa-link"></i></a><a href="#CNCF-最初的定义" class="headerlink" title="CNCF 最初的定义"></a>CNCF 最初的定义</h4>
+      <p>到了 2015 年 Google 主导成立了云原生计算基金会（CNCF），起初 CNCF 对云原生（Cloud Native）的定义包含以下三个方面：</p>
+<ul>
+<li>应用容器化</li>
+<li>面向微服务架构</li>
+<li>应用支持容器的编排调度</li>
+</ul>
+
+        <h3 id="重定义"   >
+          <a href="#重定义" class="heading-link"><i class="fas fa-link"></i></a><a href="#重定义" class="headerlink" title="重定义"></a>重定义</h3>
+      <p>到了 2018 年，随着近几年来云原生生态的不断壮大，所有主流云计算供应商都加入了该基金会，且从 <span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://i.cncf.io/" >Cloud Native Landscape</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span> 中可以看出云原生有意蚕食原先非云原生应用的部分。CNCF 基金会中的会员以及容纳的项目越来越多，该定义已经限制了云原生生态的发展，CNCF 为云原生进行了重新定位。</p>
+<p>以下是 CNCF 对云原生的<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://github.com/cncf/toc/blob/main/DEFINITION.md" >重新定义</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>（中英对照）：</p>
+<blockquote>
+<p>Cloud native technologies empower organizations to build and run scalable applications in modern, dynamic environments such as public, private, and hybrid clouds. Containers, service meshes, microservices, immutable infrastructure, and declarative APIs exemplify this approach.</p>
+</blockquote>
+<p>云原生技术有利于各组织在公有云、私有云和混合云等新型动态环境中，构建和运行可弹性扩展的应用。云原生的代表技术包括容器、服务网格、微服务、不可变基础设施和声明式 API。</p>
+<blockquote>
+<p>These techniques enable loosely coupled systems that are resilient, manageable, and observable. Combined with robust automation, they allow engineers to make high-impact changes frequently and predictably with minimal toil.</p>
+</blockquote>
+<p>这些技术能够构建容错性好、易于管理和便于观察的松耦合系统。结合可靠的自动化手段，云原生技术使工程师能够轻松地对系统作出频繁和可预测的重大变更。</p>
+<blockquote>
+<p>The Cloud Native Computing Foundation seeks to drive adoption of this paradigm by fostering and sustaining an ecosystem of open source, vendor-neutral projects. We democratize state-of-the-art patterns to make these innovations accessible for everyone.</p>
+</blockquote>
+<p>云原生计算基金会（CNCF）致力于培育和维护一个厂商中立的开源生态系统，来推广云原生技术。我们通过将最前沿的模式民主化，让这些创新为大众所用。</p>
+
+        <h4 id="总结"   >
+          <a href="#总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#总结" class="headerlink" title="总结"></a>总结</h4>
+      <p>关于什么是云原生的争论还在进行中，在笔者看来云原生是一种行为方式和设计理念，究其本质，凡是能够提高云上资源利用率和应用交付效率的行为或方式都是云原生的。云计算的发展史就是一部云原生化的历史。Kubernetes 开启了云原生的序幕，服务网格 Istio 的出现，引领了后 Kubernetes 时代的微服务，serverless 的再次兴起，使得云原生从基础设施层不断向应用架构层挺进，我们正处于一个云原生的新时代。</p>
+
+        <h4 id="参考"   >
+          <a href="#参考" class="heading-link"><i class="fas fa-link"></i></a><a href="#参考" class="headerlink" title="参考"></a>参考</h4>
+      <ul>
+<li><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://cloudnative.to/" >https://cloudnative.to/</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></li>
+</ul>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://hawawa.gitee.io">hao peng</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://hawawa.gitee.io/2022/05/08/%E8%AE%A4%E8%AF%86%E4%BA%91%E5%8E%9F%E7%94%9F/">https://hawawa.gitee.io/2022/05/08/%E8%AE%A4%E8%AF%86%E4%BA%91%E5%8E%9F%E7%94%9F/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/">云原生</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/kubernetes/">kubernetes</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/05/13/%E4%B8%80-Spring-Data-JPA%E4%BB%8B%E7%BB%8D/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">一 Spring Data JPA介绍</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/05/08/%E4%BD%BF%E7%94%A8K9S%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86K8S%E9%9B%86%E7%BE%A4%E8%B5%84%E6%BA%90/"><span class="paginator-prev__text">使用K9S工具管理K8S集群资源</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%91%E5%8E%9F%E7%94%9F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">
+          云原生的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pivotal-%E6%9C%80%E5%88%9D%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">
+          Pivotal 最初的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CNCF-%E6%9C%80%E5%88%9D%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.</span> <span class="toc-text">
+          CNCF 最初的定义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">
+          重定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.1.</span> <span class="toc-text">
+          总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">2.2.</span> <span class="toc-text">
+          参考</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">路漫漫其修远兮，吾将上下而求索</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">59</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>hao peng</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favor16.ico?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favor32.ico?v=2.6.2" type="image/png" sizes="32x32"><meta name="description" content="Mybatis-Spring集成原理  通过定义BD来最终集成到spring中 由于mapper文件时接口 所以没法直接通过class名来定义BD，需要通过动态代理生成代理类   所以可以考虑用FactoryBean来自定义Bean的具体实现 为了保证FactoryBean的通用性，不需要为每一个Mapper编写一个factoryBean 所以可以通过泛型来解决 考虑到应该动态添加BD到sprin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis集成Spring原理">
+<meta property="og:url" content="https://hawawa.gitee.io/2022/05/08/Mybatis%E9%9B%86%E6%88%90Spring%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="peng.hao">
+<meta property="og:description" content="Mybatis-Spring集成原理  通过定义BD来最终集成到spring中 由于mapper文件时接口 所以没法直接通过class名来定义BD，需要通过动态代理生成代理类   所以可以考虑用FactoryBean来自定义Bean的具体实现 为了保证FactoryBean的通用性，不需要为每一个Mapper编写一个factoryBean 所以可以通过泛型来解决 考虑到应该动态添加BD到sprin">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-08T13:03:56.000Z">
+<meta property="article:modified_time" content="2022-05-19T08:22:43.557Z">
+<meta property="article:author" content="hao peng">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary"><title>Mybatis集成Spring原理 | peng.hao</title><link ref="canonical" href="https://hawawa.gitee.io/2022/05/08/Mybatis%E9%9B%86%E6%88%90Spring%E5%8E%9F%E7%90%86/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">peng.hao</div><div class="header-banner-info__subtitle"></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Mybatis集成Spring原理</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-05-08</span></span></div></header><div class="post-body"><p>Mybatis-Spring集成原理</p>
+<ol>
+<li>通过定义BD来最终集成到spring中</li>
+<li>由于mapper文件时接口 所以没法直接通过class名来定义BD，需要通过动态代理生成代理类   所以可以考虑用FactoryBean来自定义Bean的具体实现</li>
+<li>为了保证FactoryBean的通用性，不需要为每一个Mapper编写一个factoryBean 所以可以通过泛型来解决</li>
+<li>考虑到应该动态添加BD到spring中 所以需要用到Import技术来动态添加DB</li>
+<li>最后需要用到scan技术来扫描指定包下的所有接口，生成代理对象，定义为BD，最终通过ImportBeanDefinitionRegistrar 注册到Spring中</li>
+</ol>
+<span id="more"></span>
+
+<ul>
+<li><p>引入依赖</p>
+<dependency>
+<groupId>org.mybatis</groupId>
+<artifactId>mybatis-spring</artifactId>
+<version>1.2.2</version>
+</dependency></li>
+<li><p>Spring启动<br>ApplicationContext ctx = new ClassPathXmlApplicationContext(“bean.xml”);</p>
+</li>
+<li><p>Spring配置文件</p>
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  <!-- 加载数据源 -->
+  <property name="dataSource" ref="dataSource"/>
+  <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"/>
+</bean></li>
+</ul>
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!-- 指定扫描的包，如果存在多个包使用(逗号,)分割 -->
+    <property name="basePackage" value="com.test.bean"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+</bean>
+
+<ul>
+<li>创建MapperScannerConfigurer</li>
+</ul>
+<p>这个扫描器继承了spring的ClassPathBeanDefinitionScanner</p>
+<p>protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {<br>    return beanDefinition.getMetadata().isInterface() &amp;&amp; beanDefinition.getMetadata().isIndependent();<br>}</p>
+<p>判断包扫描路径下的Interface</p>
+<p>sbd.getPropertyValues().add(“mapperInterface”, definition.getBeanClassName());<br>sbd.setBeanClass(MapperFactoryBean.class);<br>sbd.getPropertyValues().add(“sqlSessionFactory”, this.sqlSessionFactory);</p>
+<p>将bd注入到beanfactory</p>
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!-- 加载数据源 -->
+    <property name="dataSource" ref="dataSource"/>
+    <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"/>
+</bean>
+
+<p>再看看SqlSessionFactoryBean</p>
+<p>两次赋值：<br>setDataSource<br>setMapperLocations</p>
+<p>public void afterPropertiesSet() throws Exception {<br>    Assert.notNull(this.dataSource, “Property ‘dataSource’ is required”);<br>    Assert.notNull(this.sqlSessionFactoryBuilder, “Property ‘sqlSessionFactoryBuilder’ is required”);<br>    this.sqlSessionFactory = this.buildSqlSessionFactory();<br>}<br>执行afterPropertiesSet</p>
+<p>buildSqlSessionFactory()</p>
+<p>首先通过一个关键字new创建了对象Configuration，这个对象是mybatis框架的一个核心类，在这里我们不做详细介绍，以后再剖析。<br>接着又创建了new SpringManagedTransactionFactory()，后面介绍这个类的作用，此处略过。<br>接着继续创建new Environment(this.environment, this.transactionFactory, this.dataSource)，这个Environment类中持有事物工厂和数据源的引用。<br>接下来就是创建XMLMapperBuilder对象，并且调用了xmlMapperBuilder.parse()方法，这个方法的详细，不在此分析，也不是我们这篇文章要记录的重点，否则会偏离我们的主题，<br>parse()这个方法就是在解析mapperLocation变量所代表的就是mybatis的一个xml配置文件</p>
+<p>xmlMapperBuilder.parse()方法执行完成之后，调用this.sqlSessionFactoryBuilder.build(configuration)，这个sqlSessionFactoryBuilder 构造器在哪儿创建的呢？<br>其他它就是SqlSessionFactoryBean的一个私有类变量，初始化SqlSessionFactoryBean的时候，就实例化了这个sqlSessionFactoryBuilder。</p>
+<p>public SqlSessionFactory build(Configuration config) {<br>    return new DefaultSqlSessionFactory(config);<br>}</p>
+<p>总结起来，就是创建了几个对象，依次是mybatis的核心类Configuration、spring和mybatis集成的事物工厂类<br>SpringManagedTransactionFactory、mybatis的Environment类、mybatis的DefaultSqlSessionFactory类，同时还完成了对mybatis的xml文件解析，并将解析结果封装在Configuration类中。</p>
+<p>执行onApplicationEvent方法</p>
+<p>调用完上面的afterPropertiesSet方法之后，第二个被调用的就是onApplicationEvent方法，这个方法的调用时机是，spring容器初始化完成之后，该方法是接口ApplicationListener<ApplicationEvent>中的方法。</p>
+<p>public void onApplicationEvent(ApplicationEvent event) {<br>    if (this.failFast &amp;&amp; event instanceof ContextRefreshedEvent) {<br>        this.sqlSessionFactory.getConfiguration().getMappedStatementNames();<br>    }<br>}<br>调试发现this.failFast这个变量的值是false，所以这个方法不会执行，在此就不做重点分析了。</p>
+<p>上面两个标签的解析过程分析完成，现在有两个问题没有答案，第一个是basePackage基础包下面扫描出来的mapper接口怎么实例化的？第二个是这两个标签创建出来的对象怎么配合使用的？</p>
+<p>@Service<br>public class AuthUserServiceImpl implements IAuthUserService {<br>    @Resource<br>    private AuthUserMapper authUserMapper;</p>
+<pre><code>public AuthUserServiceImpl()&#123;
+    logger.info(&quot;创建 com.test.bean.AuthUserServiceImpl&quot;);
+&#125;
+</code></pre>
+<p>}</p>
+<p>首先根据这个mapper的名字从spring的BeanFactory中获取它的BeanDefinition，再从BeanDefinition中获取BeanClass，AuthUserMapper对应的BeanClass就是MapperFactoryBean，<br>这是为什么呢？在上面分析的内容中提到过，也就是在创建MapperScannerConfigurer对象的时候设置的。</p>
+<p>MapperFactoryBean对象的属性设置完成之后，就调用它的getObject()方法，来获取authUserMapper对应的实现类，从上面图中可以看出来，最后返回的就是一个代理类，这个代理类使用jdk的动态代理创建出来的。</p>
+<p>return Proxy.newProxyInstance(this.mapperInterface.getClassLoader(), new Class[]{this.mapperInterface}, mapperProxy);</p>
+<p>这个MapperProxy类就是InvocationHandler的实现类：</p>
+<p>public class MapperProxy<T> implements InvocationHandler, Serializable {</p>
+<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+    if (Object.class.equals(method.getDeclaringClass())) &#123;
+        return method.invoke(this, args);
+    &#125; else &#123;
+        MapperMethod mapperMethod = this.cachedMapperMethod(method);
+        return mapperMethod.execute(this.sqlSession, args);
+    &#125;
+&#125;
+</code></pre>
+<p>}</p>
+<p>程序在调用authUserMapper对象的某个方法的时候，就会调用到MapperProxy对象的invoke()方法，去完成对数据库的操作。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://hawawa.gitee.io">hao peng</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://hawawa.gitee.io/2022/05/08/Mybatis%E9%9B%86%E6%88%90Spring%E5%8E%9F%E7%90%86/">https://hawawa.gitee.io/2022/05/08/Mybatis%E9%9B%86%E6%88%90Spring%E5%8E%9F%E7%90%86/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://hawawa.gitee.io/tags/Spring/">Spring</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/05/08/Spring%E5%9F%BA%E7%A1%80%E6%80%BB%E7%BB%93/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Spring基础总结</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/05/08/RabbitMQ%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"><span class="paginator-prev__text">RabbitMQ实现延时消息队列</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">路漫漫其修远兮，吾将上下而求索</p></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">59</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">33</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-cn" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>hao peng</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
